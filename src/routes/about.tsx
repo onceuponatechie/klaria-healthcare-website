@@ -152,7 +152,8 @@ function Team() {
   );
 }
 
-function Values({ values }: { values: typeof import("./about")["__valuesType"] | any }) {
+type Value = { icon: typeof HeartHandshake; title: string; body: string; h: number };
+function Values({ values }: { values: Value[] }) {
   return (
     <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
       <Reveal className="max-w-2xl space-y-4 mb-12">
@@ -162,7 +163,7 @@ function Values({ values }: { values: typeof import("./about")["__valuesType"] |
         </h2>
       </Reveal>
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 [column-fill:_balance]">
-        {values.map((v: any, i: number) => (
+        {values.map((v, i) => (
           <Reveal key={v.title} delay={i * 0.05} className="break-inside-avoid mb-5">
             <div
               className={`rounded-3xl p-7 border border-primary/10 ${v.h === 1 ? "bg-primary-soft" : "bg-card"} shadow-soft`}
