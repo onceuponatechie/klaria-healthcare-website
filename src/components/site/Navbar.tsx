@@ -85,6 +85,7 @@ export function Navbar() {
               <Menu className="w-5 h-5" />
             </button>
           </div>
+          </div>
         </div>
       </motion.header>
 
