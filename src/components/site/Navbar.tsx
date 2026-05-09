@@ -33,13 +33,16 @@ export function Navbar() {
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-3 sm:top-5 inset-x-0 z-50 px-3 sm:px-6"
+        className="fixed top-0 inset-x-0 z-50"
       >
         <div
-          className={`mx-auto max-w-6xl flex items-center justify-between gap-4 rounded-2xl px-4 sm:px-5 py-2.5 transition-all duration-500 ${
-            scrolled ? "glass-strong shadow-glass" : "glass"
+          className={`w-full border-b transition-all duration-500 ${
+            scrolled
+              ? "bg-background/85 backdrop-blur-xl backdrop-saturate-150 border-border/70 shadow-soft"
+              : "bg-background/60 backdrop-blur-md border-transparent"
           }`}
         >
+          <div className="mx-auto max-w-7xl flex items-center justify-between gap-4 px-4 sm:px-8 h-16 sm:h-[72px]">
           <Link to="/" className="flex items-center gap-2 font-display font-bold text-foreground">
             <span className="grid place-items-center w-9 h-9 rounded-xl bg-primary text-primary-foreground">
               <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
