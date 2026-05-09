@@ -143,11 +143,20 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
-  .gradient-radial-sky {
-    background:
-      radial-gradient(60% 50% at 20% 0%, color-mix(in oklab, var(--primary) 18%, transparent) 0%, transparent 60%),
-      radial-gradient(50% 50% at 90% 30%, color-mix(in oklab, var(--teal) 14%, transparent) 0%, transparent 60%);
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
   }
+  .dot-bg {
+    background-image: radial-gradient(color-mix(in oklab, var(--foreground) 12%, transparent) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .ticker { animation: marquee 40s linear infinite; }
+  .magnetic-arrow { transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+  .group:hover .magnetic-arrow { transform: translateX(6px); }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { scrollbar-width: none; }
 }
