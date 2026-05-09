@@ -510,7 +510,7 @@ function TeamConstellation() {
                 initial={{ opacity: 0, scale: 0.6 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: m.delay, type: "spring", stiffness: 180, damping: 14 }}
+                transition={{ delay: m.delay, duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 animate={{ y: [0, -8, 0] }}
                 whileHover={{ scale: 1.08, zIndex: 20 }}
                 className={`absolute ${sz} rounded-full overflow-hidden shadow-float ring-4 ${active === i ? "ring-primary" : "ring-background"} transition-all`}
