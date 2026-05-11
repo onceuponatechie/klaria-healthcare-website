@@ -3,8 +3,8 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { useRef, useState } from "react";
 import {
   ShieldCheck, Clock, Sparkles, Stethoscope, ArrowRight, ArrowUpRight,
-  Star, BadgeCheck, HeartPulse, Microscope, PlayCircle, Activity,
-  CalendarCheck, ChevronDown, Quote,
+  Star, BadgeCheck, HeartPulse, Microscope, PlayCircle,
+  CalendarCheck, ChevronDown, Quote, TrendingUp, Heart, Users, Shield,
 } from "lucide-react";
 import { PageShell, Reveal, SectionEyebrow } from "@/components/site/PageShell";
 import heroConsult from "@/assets/hero-consult.jpg";
@@ -15,9 +15,17 @@ import doc1 from "@/assets/doctor-1.jpg";
 import doc2 from "@/assets/doctor-2.jpg";
 import doc3 from "@/assets/doctor-3.jpg";
 import doc4 from "@/assets/doctor-4.jpg";
+import act1 from "@/assets/doc-action-1.jpg";
+import act2 from "@/assets/doc-action-2.jpg";
+import act3 from "@/assets/doc-action-3.jpg";
+import act4 from "@/assets/doc-action-4.jpg";
+import act5 from "@/assets/doc-action-5.jpg";
+import whyCalm from "@/assets/why-calm.jpg";
+import whyDoctor from "@/assets/why-doctor.jpg";
 import blog1 from "@/assets/blog-1.jpg";
 import blog2 from "@/assets/blog-2.jpg";
 import blog3 from "@/assets/blog-3.jpg";
+import blogHero from "@/assets/blog-hero.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,12 +44,11 @@ function Home() {
     <PageShell>
       <Hero />
       <TrustMarquee />
-      <LiveStats />
-      <WhyUs />
+      <ShowDontTell />
       <ServicesHighlight />
-      <TeamConstellation />
+      <DoctorsMarquee />
       <Testimonials />
-      <BlogStack />
+      <BlogGrid />
       <FAQ />
       <FinalCTA />
     </PageShell>
@@ -60,7 +67,7 @@ function Hero() {
   return (
     <section ref={ref} className="relative overflow-hidden">
       <div className="absolute inset-0 grid-bg pointer-events-none" />
-      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-12 pb-16 sm:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-12 pb-24 sm:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         <motion.div style={{ y }} className="lg:col-span-6 space-y-7 lg:pt-6">
           <Reveal>
             <SectionEyebrow>Now welcoming new patients</SectionEyebrow>
@@ -104,7 +111,6 @@ function Hero() {
             <MagneticButton to="#story"><PlayCircle className="w-5 h-5 text-primary" /> Watch Our Story</MagneticButton>
           </Reveal>
 
-          {/* Mini info card under hero copy (matches contact-page card style) */}
           <Reveal delay={0.9}>
             <motion.div
               whileHover={{ y: -3 }}
@@ -150,51 +156,51 @@ function Hero() {
               />
             </motion.div>
 
-            {/* Floating verified card */}
+            {/* Verified card — top-left on mobile, bottom-left on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 20, x: -10 }}
               animate={{ opacity: 1, y: 0, x: 0 }}
               transition={{ delay: 0.6, duration: 0.7 }}
               whileHover={{ y: -4 }}
-              className="absolute -bottom-5 -left-3 sm:-left-6 glass-strong rounded-2xl p-4 shadow-float flex items-center gap-3 max-w-[240px]"
+              className="absolute -top-4 left-3 sm:top-auto sm:-bottom-5 sm:-left-6 glass-strong rounded-2xl p-3 sm:p-4 shadow-float flex items-center gap-3 max-w-[220px]"
             >
-              <div className="grid place-items-center w-11 h-11 rounded-xl bg-primary/15 text-primary">
-                <BadgeCheck className="w-6 h-6" />
+              <div className="grid place-items-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary/15 text-primary shrink-0">
+                <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-foreground leading-tight">Verified Specialists</p>
-                <p className="text-xs text-muted-foreground">Board-certified · Insured</p>
+                <p className="text-xs sm:text-sm font-semibold text-foreground leading-tight">Verified Specialists</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground">Board-certified · Insured</p>
               </div>
             </motion.div>
 
-            {/* Live availability card */}
+            {/* Live availability pill — top-right always */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75, duration: 0.7 }}
               whileHover={{ y: -4 }}
-              className="absolute -top-4 -right-3 sm:-right-6 glass-strong rounded-2xl px-4 py-3 shadow-float"
+              className="absolute -top-3 right-2 sm:-top-4 sm:-right-6 glass-strong rounded-full px-3 sm:px-4 py-2 sm:py-3 shadow-float"
             >
               <div className="flex items-center gap-2">
                 <span className="relative flex w-2.5 h-2.5">
                   <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
                   <span className="relative inline-flex rounded-full w-2.5 h-2.5 bg-emerald-500" />
                 </span>
-                <p className="text-xs font-semibold text-foreground">Open today · 8:00 — 19:00</p>
+                <p className="text-[11px] sm:text-xs font-semibold text-foreground whitespace-nowrap">Open · 8AM — 7PM</p>
               </div>
             </motion.div>
 
-            {/* Live booking card — bottom right */}
+            {/* Next available booking card — bottom on mobile too, but pushed below image, not overlapping verified */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.9, duration: 0.7 }}
               whileHover={{ y: -4, rotate: -1 }}
-              className="absolute -bottom-8 -right-2 sm:-right-8 glass-strong rounded-2xl p-4 shadow-float w-[220px]"
+              className="absolute -bottom-12 right-2 sm:-bottom-8 sm:-right-8 glass-strong rounded-2xl p-3 sm:p-4 shadow-float w-[200px] sm:w-[220px]"
             >
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
                 <CalendarCheck className="w-4 h-4 text-primary" />
-                <p className="text-xs font-semibold text-foreground">Next available</p>
+                <p className="text-[11px] sm:text-xs font-semibold text-foreground">Next available</p>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 {["09:00", "10:30", "14:00"].map((t, i) => (
@@ -203,7 +209,7 @@ function Hero() {
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.1 + i * 0.1 }}
-                    className={`text-center text-[11px] font-bold py-1.5 rounded-md ${i === 1 ? "bg-primary text-primary-foreground" : "bg-foreground/5 text-foreground"}`}
+                    className={`text-center text-[10px] sm:text-[11px] font-bold py-1.5 rounded-md ${i === 1 ? "bg-primary text-primary-foreground" : "bg-foreground/5 text-foreground"}`}
                   >
                     {t}
                   </motion.div>
@@ -257,17 +263,35 @@ function MagneticButton({
   );
 }
 
-/* ---------- TRUST MARQUEE ---------- */
+/* ---------- TRUST MARQUEE (upgraded) ---------- */
 function TrustMarquee() {
-  const items = ["MediCare+", "Cigna", "Aetna", "BlueShield", "United Health", "AMA Certified", "WHO Partner", "JCI Accredited"];
+  const items = [
+    { name: "MediCare+", icon: Shield },
+    { name: "Cigna", icon: BadgeCheck },
+    { name: "Aetna", icon: Heart },
+    { name: "BlueShield", icon: Shield },
+    { name: "United Health", icon: BadgeCheck },
+    { name: "AMA Certified", icon: ShieldCheck },
+    { name: "WHO Partner", icon: Sparkles },
+    { name: "JCI Accredited", icon: Star },
+  ];
   const row = [...items, ...items];
   return (
-    <section className="border-y border-border/60 bg-surface/50">
-      <div className="overflow-hidden py-7">
-        <div className="flex gap-14 ticker whitespace-nowrap">
+    <section className="relative border-y border-border/60 bg-gradient-to-r from-surface/40 via-primary-soft/40 to-surface/40">
+      <Reveal className="max-w-6xl mx-auto px-5 sm:px-8 pt-10 pb-4 flex items-center gap-3">
+        <span className="h-px flex-1 bg-gradient-to-r from-transparent to-border" />
+        <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground font-semibold">
+          Accredited & trusted by the world's leading networks
+        </p>
+        <span className="h-px flex-1 bg-gradient-to-l from-transparent to-border" />
+      </Reveal>
+      <div className="overflow-hidden py-6 sm:py-8 mask-fade-x pause-on-hover">
+        <div className="flex gap-10 sm:gap-14 ticker whitespace-nowrap">
           {row.map((t, i) => (
-            <span key={i} className="text-base sm:text-lg font-display font-semibold tracking-tight text-muted-foreground/70">
-              {t}
+            <span key={i} className="inline-flex items-center gap-3 text-base sm:text-lg font-display font-semibold tracking-tight text-foreground/55 hover:text-primary transition-colors">
+              <t.icon className="w-5 h-5 text-primary/70" />
+              {t.name}
+              <span className="w-1 h-1 rounded-full bg-foreground/20" />
             </span>
           ))}
         </div>
@@ -276,105 +300,206 @@ function TrustMarquee() {
   );
 }
 
-/* ---------- LIVE STATS (counters) ---------- */
-function LiveStats() {
-  const stats = [
-    { v: 8400, suffix: "+", label: "Patients cared for" },
-    { v: 24, suffix: "", label: "In-house specialists" },
-    { v: 4.9, suffix: "/5", label: "Average rating", float: true },
-    { v: 12, suffix: "min", label: "Average wait time" },
-  ];
-  return (
-    <section className="max-w-6xl mx-auto px-5 sm:px-8 py-14">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((s, i) => (
-          <Reveal key={i} delay={i * 0.06}>
-            <Counter {...s} />
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Counter({ v, suffix, label, float }: { v: number; suffix: string; label: string; float?: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [n, setN] = useState(0);
-  return (
-    <motion.div
-      ref={ref}
-      onViewportEnter={() => {
-        const dur = 1400; const start = performance.now();
-        const tick = (t: number) => {
-          const p = Math.min(1, (t - start) / dur);
-          const eased = 1 - Math.pow(1 - p, 3);
-          setN(eased * v);
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }}
-      viewport={{ once: true }}
-      whileHover={{ y: -4 }}
-      className="rounded-3xl bg-card p-6 shadow-soft"
-    >
-      <p className="text-4xl sm:text-5xl font-extrabold tracking-tighter text-foreground">
-        {float ? n.toFixed(1) : Math.round(n).toLocaleString()}<span className="text-primary">{suffix}</span>
-      </p>
-      <p className="text-sm text-muted-foreground mt-2">{label}</p>
-    </motion.div>
-  );
-}
-
-/* ---------- WHY US ---------- */
-function WhyUs() {
-  const items = [
-    { icon: Clock, title: "Zero wait times", body: "Book a slot, walk in, get seen. Our scheduling means your time is respected — every visit.", tone: "from-sky-500/10 to-sky-500/0" },
-    { icon: Stethoscope, title: "Expert specialists", body: "A handpicked team of board-certified specialists collaborating on your care plan.", tone: "from-emerald-500/10 to-emerald-500/0" },
-    { icon: Sparkles, title: "Modern technology", body: "From AI-assisted diagnostics to digital records — modern tools, gentler experiences.", tone: "from-amber-400/10 to-amber-400/0" },
-  ];
+/* ---------- SHOW DON'T TELL — 3-card showcase (Why Klaria) ---------- */
+function ShowDontTell() {
   return (
     <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
-      <Reveal className="max-w-2xl space-y-4">
+      <Reveal className="max-w-3xl space-y-4 mb-12 sm:mb-16">
         <SectionEyebrow>Why Klaria</SectionEyebrow>
-        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-          Care that finally feels modern.
+        <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
+          Care that finally <span className="italic text-primary">feels</span> modern.
         </h2>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-lg max-w-xl">
           We rebuilt the clinic from the ground up — every wait, every form, every conversation.
         </p>
       </Reveal>
-      <div className="mt-12 grid md:grid-cols-3 gap-5">
-        {items.map((it, i) => (
-          <Reveal key={it.title} delay={i * 0.1}>
-            <motion.div
-              whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 250 }}
-              className="group relative h-full rounded-3xl bg-card p-7 shadow-soft hover:shadow-float transition-shadow overflow-hidden"
+
+      <div className="grid md:grid-cols-12 gap-4 sm:gap-5">
+        {/* CARD 1 — calm space photo */}
+        <Reveal className="md:col-span-4" y={40}>
+          <motion.div
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 250 }}
+            className="group relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden shadow-soft"
+          >
+            <motion.img
+              src={whyCalm}
+              alt="Calm modern clinic interior"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ scale: 1.1 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-transparent" />
+            <motion.a
+              whileHover={{ rotate: 45, scale: 1.1 }}
+              href="/about"
+              className="absolute top-4 right-4 grid place-items-center w-11 h-11 rounded-full bg-background text-foreground shadow-float"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${it.tone} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-primary/5 blur-3xl group-hover:bg-primary/15 transition-colors duration-500" />
+              <ArrowUpRight className="w-5 h-5" />
+            </motion.a>
+            <div className="absolute bottom-5 left-5 right-5 text-background space-y-1">
+              <div className="flex gap-2 mb-2">
+                <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Calm</span>
+                <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Quiet</span>
+              </div>
+              <p className="text-2xl font-bold tracking-tight leading-tight">Spaces designed to lower your pulse.</p>
+              <p className="text-sm text-background/80 max-w-[18rem]">Soft lighting, real plants, no fluorescent buzz. The room itself is medicine.</p>
+            </div>
+          </motion.div>
+        </Reveal>
 
-              <div className="relative">
-                <motion.div
-                  whileHover={{ rotate: -6, scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 280 }}
-                  className="grid place-items-center w-16 h-16 rounded-2xl bg-primary text-primary-foreground shadow-glass"
-                >
-                  <it.icon className="w-7 h-7" />
-                </motion.div>
-                <h3 className="mt-6 text-2xl font-bold text-foreground">{it.title}</h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed">{it.body}</p>
+        {/* CARD 2 — bold blue stat showcase */}
+        <Reveal className="md:col-span-5" delay={0.1} y={40}>
+          <motion.div
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 250 }}
+            className="relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden bg-gradient-to-br from-primary via-[oklch(0.6_0.18_235)] to-[oklch(0.45_0.2_245)] text-primary-foreground p-7 sm:p-9 shadow-float"
+          >
+            {/* Animated noise / orbs */}
+            <motion.div
+              animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+              transition={{ duration: 6, repeat: Infinity }}
+              className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/30 blur-3xl"
+            />
+            <motion.div
+              animate={{ scale: [1.1, 1, 1.1], opacity: [0.25, 0.45, 0.25] }}
+              transition={{ duration: 7, repeat: Infinity }}
+              className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-white/20 blur-3xl"
+            />
 
-                <div className="mt-7 flex items-center gap-2">
-                  <div className="h-px flex-1 bg-gradient-to-r from-foreground/15 to-transparent" />
-                  <span className="text-3xl font-extrabold text-foreground/15 tabular-nums">0{i + 1}</span>
+            <div className="relative h-full flex flex-col justify-between">
+              <div className="flex items-start justify-between gap-3">
+                <div className="grid place-items-center w-11 h-11 rounded-2xl bg-background/20 backdrop-blur-md">
+                  <TrendingUp className="w-5 h-5" />
                 </div>
+                <div className="flex gap-2">
+                  <span className="rounded-full bg-background/15 backdrop-blur-md px-3 py-1.5 text-xs font-semibold">This Year</span>
+                  <button className="grid place-items-center w-8 h-8 rounded-full bg-background/15 backdrop-blur-md text-base font-bold leading-none">···</button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <AnimatedStat value={94} suffix="%" />
+                <p className="font-display font-bold text-xl">Patients leave smiling</p>
+                <p className="text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
+                  Measured monthly. We share the number internally — and we obsess over moving it up.
+                </p>
+
+                {/* Mini pagination dots like the inspiration */}
+                <div className="flex items-center justify-between pt-4">
+                  <button className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
+                    <ChevronDown className="w-4 h-4 -rotate-90" />
+                  </button>
+                  <div className="flex items-center gap-1.5 flex-1 mx-3">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <span key={i} className={`h-1 rounded-full transition-all ${i === 1 ? "flex-[2] bg-background" : "flex-1 bg-background/30"}`} />
+                    ))}
+                  </div>
+                  <button className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
+                    <ChevronDown className="w-4 h-4 rotate-[270deg]" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </Reveal>
+
+        {/* CARD 3 — Expert care with portrait */}
+        <Reveal className="md:col-span-3" delay={0.2} y={40}>
+          <motion.div
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 250 }}
+            className="relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden bg-card shadow-soft p-6 flex flex-col"
+          >
+            <motion.a
+              whileHover={{ rotate: 45, scale: 1.1 }}
+              href="/about"
+              className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-full bg-foreground text-background shadow-soft z-10"
+            >
+              <ArrowUpRight className="w-4 h-4" />
+            </motion.a>
+
+            <h3 className="font-display text-2xl font-bold text-foreground tracking-tight leading-tight">
+              Expert Care
+            </h3>
+            <p className="text-sm text-muted-foreground mt-1 max-w-[14rem]">
+              A team of board-certified specialists collaborating on your care plan.
+            </p>
+
+            {/* Portrait floating on a soft brand wash */}
+            <div className="relative mt-4 -mx-6 -mb-6 flex-1 rounded-b-[1.75rem] overflow-hidden bg-primary-soft">
+              <motion.img
+                src={whyDoctor}
+                alt="Klaria specialist"
+                loading="lazy"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[110%] object-cover object-top"
+                initial={{ y: 30, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-foreground">
+                <div>
+                  <p className="text-2xl font-extrabold tracking-tight">12<span className="text-primary">+</span></p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Specialists</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-extrabold tracking-tight">50<span className="text-primary">+</span></p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Yrs combined</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </Reveal>
+      </div>
+
+      {/* Quick value strip */}
+      <div className="mt-5 grid sm:grid-cols-3 gap-4">
+        {[
+          { icon: Clock, t: "Zero wait times", b: "Book a slot, walk in, get seen." },
+          { icon: Stethoscope, t: "One care team", b: "Specialists collaborating, not siloed." },
+          { icon: Sparkles, t: "Modern technology", b: "Gentler tools. Better outcomes." },
+        ].map((it, i) => (
+          <Reveal key={it.t} delay={i * 0.08}>
+            <motion.div whileHover={{ y: -3 }} className="rounded-2xl bg-card p-5 shadow-soft flex items-center gap-4">
+              <span className="grid place-items-center w-11 h-11 rounded-xl bg-primary-soft text-primary shrink-0">
+                <it.icon className="w-5 h-5" />
+              </span>
+              <div>
+                <p className="font-bold text-foreground">{it.t}</p>
+                <p className="text-sm text-muted-foreground">{it.b}</p>
               </div>
             </motion.div>
           </Reveal>
         ))}
       </div>
     </section>
+  );
+}
+
+function AnimatedStat({ value, suffix }: { value: number; suffix: string }) {
+  const [n, setN] = useState(0);
+  return (
+    <motion.p
+      onViewportEnter={() => {
+        const dur = 1400; const start = performance.now();
+        const tick = (t: number) => {
+          const p = Math.min(1, (t - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setN(eased * value);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }}
+      onViewportLeave={() => setN(0)}
+      viewport={{ amount: 0.4 }}
+      className="font-display text-7xl sm:text-8xl font-extrabold tracking-tighter leading-none"
+    >
+      +{Math.round(n)}<span className="text-background/70">{suffix}</span>
+    </motion.p>
   );
 }
 
@@ -401,7 +526,7 @@ function ServicesHighlight() {
                 <motion.img
                   initial={{ scale: 1.15 }}
                   whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false, amount: 0.2 }}
                   transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
                   src={it.img} alt={it.eyebrow} loading="lazy" className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -424,114 +549,193 @@ function ServicesHighlight() {
   );
 }
 
-/* ---------- TEAM CONSTELLATION (creative people-behind-care section) ---------- */
-function TeamConstellation() {
+/* ---------- DOCTORS MARQUEE (in-action closeups, auto-slider) ---------- */
+function DoctorsMarquee() {
   const team = [
-    { img: doc1, name: "Dr. Amara Adeyemi", role: "Family Medicine", years: 12, x: "8%", y: "12%", size: "lg", delay: 0 },
-    { img: doc2, name: "Dr. Jordan Pierce", role: "Cardiology", years: 9, x: "62%", y: "4%", size: "md", delay: 0.1 },
-    { img: doc3, name: "Dr. Lin Hayashi", role: "Optometry", years: 7, x: "78%", y: "44%", size: "lg", delay: 0.2 },
-    { img: doc4, name: "Dr. Marcus Bell", role: "Physiotherapy", years: 11, x: "4%", y: "58%", size: "md", delay: 0.3 },
-    { img: doc1, name: "Dr. Priya Shah", role: "Pediatrics", years: 8, x: "44%", y: "62%", size: "sm", delay: 0.4 },
+    { img: act1, name: "Dr. Amara Adeyemi", role: "Family Medicine", years: 12 },
+    { img: act2, name: "Dr. Jordan Pierce", role: "Dentistry", years: 9 },
+    { img: act3, name: "Dr. Lin Hayashi", role: "Optometry", years: 7 },
+    { img: act4, name: "Dr. Marcus Bell", role: "Physiotherapy", years: 11 },
+    { img: act5, name: "Dr. Priya Shah", role: "Pediatrics", years: 8 },
   ];
-  const [active, setActive] = useState(0);
+  const row = [...team, ...team];
 
   return (
-    <section className="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
-      <div className="grid lg:grid-cols-12 gap-10 items-center">
-        <Reveal className="lg:col-span-5 space-y-6">
+    <section className="py-20 sm:py-28 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 mb-12 grid lg:grid-cols-12 gap-6 items-end">
+        <Reveal className="lg:col-span-7 space-y-4">
           <SectionEyebrow>The people behind your care</SectionEyebrow>
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-            A small team of <span className="italic text-primary">obsessively kind</span> specialists.
+          <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
+            Specialists you'd recommend to your <span className="italic text-primary">mother</span>.
           </h2>
+        </Reveal>
+        <Reveal delay={0.1} className="lg:col-span-5">
           <p className="text-muted-foreground text-lg">
-            Hover any portrait — meet the person who could be looking after you next week.
+            Meet the team in the middle of doing the thing they love most — taking care of people. Hover any portrait to slow the slider.
           </p>
+        </Reveal>
+      </div>
+
+      {/* Auto sliding strip */}
+      <div className="mask-fade-x pause-on-hover">
+        <div className="flex gap-5 ticker-slow w-max">
+          {row.map((d, i) => (
+            <motion.article
+              key={i}
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 250 }}
+              className="group relative w-[260px] sm:w-[320px] aspect-[4/5] rounded-[1.75rem] overflow-hidden shadow-soft shrink-0 bg-card"
+            >
+              <motion.img
+                src={d.img}
+                alt={d.name}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/15 to-transparent" />
+              <div className="absolute top-4 left-4">
+                <span className="inline-flex items-center gap-1.5 rounded-full glass-strong px-2.5 py-1 text-[10px] font-semibold text-foreground uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> In session
+                </span>
+              </div>
+              <div className="absolute top-4 right-4 grid place-items-center w-9 h-9 rounded-full bg-background/95 text-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                <ArrowUpRight className="w-4 h-4" />
+              </div>
+              <div className="absolute bottom-5 left-5 right-5 text-background">
+                <p className="text-xs font-semibold tracking-widest uppercase text-background/80">{d.role}</p>
+                <p className="mt-1 text-2xl font-extrabold tracking-tight leading-tight">{d.name}</p>
+                <div className="mt-3 flex items-center gap-3 text-xs text-background/85">
+                  <span className="inline-flex items-center gap-1"><Star className="w-3 h-3 fill-primary text-primary" /> 4.9</span>
+                  <span className="w-1 h-1 rounded-full bg-background/40" />
+                  <span>{d.years} yrs experience</span>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+
+      {/* Reverse direction strip */}
+      <div className="mask-fade-x mt-5 pause-on-hover">
+        <div className="flex gap-5 ticker-reverse w-max">
+          {[...row].reverse().map((d, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="relative w-[180px] sm:w-[220px] aspect-[5/3] rounded-2xl overflow-hidden shadow-soft shrink-0"
+            >
+              <img src={d.img} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
+              <p className="absolute bottom-3 left-3 text-background text-sm font-semibold">{d.name.split(" ").slice(-1)[0]} · {d.role}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <Reveal className="max-w-6xl mx-auto px-5 sm:px-8 mt-10 flex justify-center">
+        <Link to="/about" className="group inline-flex items-center gap-2 font-semibold text-foreground">
+          Meet the full team <ArrowRight className="w-4 h-4 magnetic-arrow text-primary" />
+        </Link>
+      </Reveal>
+    </section>
+  );
+}
+
+/* ---------- TESTIMONIALS (premium feel) ---------- */
+function Testimonials() {
+  const reviews = [
+    { name: "Amelia Roberts", role: "Optometry · 2 visits", quote: "I forgot what going to a clinic without anxiety felt like. Klaria changed that on the very first visit.", img: doc1, location: "Brooklyn, NY" },
+    { name: "Marcus Tan", role: "Physiotherapy · 6 weeks", quote: "Six weeks of recovery in three. They actually measure outcomes — and they actually care.", img: doc2, location: "Queens, NY" },
+    { name: "Priya Sharma", role: "Family Dentistry", quote: "Calm, beautiful, modern. My kids ask to come back. That's a first.", img: doc3, location: "Manhattan, NY" },
+  ];
+  const [active, setActive] = useState(0);
+  const r = reviews[active];
+
+  return (
+    <section className="py-20 sm:py-28 bg-gradient-to-b from-background via-primary-soft/30 to-background">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <Reveal className="lg:col-span-5 space-y-5">
+          <SectionEyebrow>Patient stories</SectionEyebrow>
+          <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
+            Loved by the people we <span className="italic text-primary">care for</span>.
+          </h2>
+          <div className="flex items-center gap-3 pt-2">
+            <div className="flex gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-5 h-5 fill-primary text-primary" />)}
+            </div>
+            <p className="text-foreground font-bold">4.9</p>
+            <p className="text-muted-foreground text-sm">based on 1,200+ verified reviews</p>
+          </div>
+
+          {/* Avatar selector */}
+          <div className="flex items-center gap-2 pt-4">
+            {reviews.map((rev, i) => (
+              <motion.button
+                key={i}
+                onClick={() => setActive(i)}
+                whileHover={{ y: -3 }}
+                className={`relative rounded-full overflow-hidden ring-2 transition-all ${active === i ? "ring-primary w-14 h-14" : "ring-transparent w-12 h-12 opacity-60 hover:opacity-100"}`}
+              >
+                <img src={rev.img} alt={rev.name} className="w-full h-full object-cover" loading="lazy" />
+                {active === i && <Users className="hidden" />}
+              </motion.button>
+            ))}
+            <div className="ml-3 flex gap-2">
+              <button onClick={() => setActive((active - 1 + reviews.length) % reviews.length)} className="grid place-items-center w-10 h-10 rounded-full bg-card shadow-soft text-foreground hover:bg-foreground hover:text-background transition">
+                <ChevronDown className="w-4 h-4 rotate-90" />
+              </button>
+              <button onClick={() => setActive((active + 1) % reviews.length)} className="grid place-items-center w-10 h-10 rounded-full bg-card shadow-soft text-foreground hover:bg-foreground hover:text-background transition">
+                <ChevronDown className="w-4 h-4 -rotate-90" />
+              </button>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="lg:col-span-7 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35 }}
-              className="rounded-3xl bg-card p-6 shadow-soft"
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.98 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="relative rounded-[2rem] bg-card p-8 sm:p-12 shadow-float overflow-hidden"
             >
-              <p className="text-2xl font-bold text-foreground">{team[active].name}</p>
-              <p className="text-primary font-semibold mt-1">{team[active].role}</p>
-              <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1"><Activity className="w-4 h-4 text-primary" /> {team[active].years} yrs experience</span>
-                <span className="flex items-center gap-1"><Star className="w-4 h-4 fill-primary text-primary" /> 4.9 rating</span>
+              <Quote className="absolute top-8 right-8 w-20 h-20 text-primary/10" />
+              <div className="relative">
+                <p className="text-2xl sm:text-3xl font-display font-semibold text-foreground leading-snug tracking-tight text-balance">
+                  "{r.quote}"
+                </p>
+                <div className="mt-8 flex items-center justify-between gap-4 border-t border-border pt-6">
+                  <div className="flex items-center gap-4">
+                    <img src={r.img} alt={r.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20" loading="lazy" />
+                    <div>
+                      <p className="font-bold text-foreground text-base">{r.name}</p>
+                      <p className="text-sm text-muted-foreground">{r.role} · {r.location}</p>
+                    </div>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-1 text-primary">
+                    {Array.from({ length: 5 }).map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
+                  </div>
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
-          <Link to="/about" className="group inline-flex items-center gap-2 font-semibold text-foreground">
-            Meet the full team <ArrowRight className="w-4 h-4 magnetic-arrow text-primary" />
-          </Link>
-        </Reveal>
 
-        {/* Constellation canvas */}
-        <div className="lg:col-span-7 relative h-[460px] sm:h-[520px] dot-bg rounded-[2rem] bg-surface/40 overflow-hidden">
-          {/* Connecting svg lines */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
-            <motion.line
-              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
-              transition={{ duration: 2 }}
-              x1="15%" y1="20%" x2="68%" y2="12%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
-            />
-            <motion.line
-              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
-              transition={{ duration: 2, delay: 0.3 }}
-              x1="68%" y1="12%" x2="83%" y2="50%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
-            />
-            <motion.line
-              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
-              transition={{ duration: 2, delay: 0.6 }}
-              x1="83%" y1="50%" x2="50%" y2="68%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
-            />
-            <motion.line
-              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
-              transition={{ duration: 2, delay: 0.9 }}
-              x1="50%" y1="68%" x2="11%" y2="64%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
-            />
-            <motion.line
-              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
-              transition={{ duration: 2, delay: 1.2 }}
-              x1="11%" y1="64%" x2="15%" y2="20%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
-            />
-          </svg>
-
-          {team.map((m, i) => {
-            const sz = m.size === "lg" ? "w-28 h-28 sm:w-36 sm:h-36" : m.size === "md" ? "w-24 h-24 sm:w-28 sm:h-28" : "w-20 h-20 sm:w-24 sm:h-24";
-            return (
-              <motion.button
-                key={i}
-                onMouseEnter={() => setActive(i)}
-                onClick={() => setActive(i)}
-                style={{ left: m.x, top: m.y }}
-                initial={{ opacity: 0, scale: 0.6 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: m.delay, duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                animate={{ y: [0, -8, 0] }}
-                whileHover={{ scale: 1.08, zIndex: 20 }}
-                className={`absolute ${sz} rounded-full overflow-hidden shadow-float ring-4 ${active === i ? "ring-primary" : "ring-background"} transition-all`}
-              >
-                <img src={m.img} alt={m.name} className="w-full h-full object-cover" loading="lazy" />
-                {active === i && (
-                  <motion.span
-                    layoutId="team-dot"
-                    className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary ring-2 ring-background"
-                  />
-                )}
-              </motion.button>
-            );
-          })}
-
+          {/* Floating stat chip */}
           <motion.div
-            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-            transition={{ delay: 1.4 }}
-            className="absolute bottom-5 right-5 glass-strong rounded-full px-4 py-2 text-xs font-semibold text-foreground"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false }}
+            className="absolute -top-5 -left-3 sm:-left-5 glass-strong rounded-2xl px-4 py-3 shadow-float flex items-center gap-3"
           >
-            5 of 24 · hover to explore
+            <div className="grid place-items-center w-10 h-10 rounded-xl bg-primary text-primary-foreground">
+              <Heart className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">Would recommend</p>
+              <p className="font-bold text-foreground">98% of patients</p>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -539,127 +743,115 @@ function TeamConstellation() {
   );
 }
 
-/* ---------- TESTIMONIALS ---------- */
-function Testimonials() {
-  const reviews = [
-    { name: "Amelia R.", role: "Patient · Optometry", quote: "I forgot what going to a clinic without anxiety felt like. Klaria changed that on the first visit.", img: doc1 },
-    { name: "Marcus T.", role: "Patient · Physio", quote: "Six weeks of recovery in three. They actually measure outcomes — and they actually care.", img: doc2 },
-    { name: "Priya S.", role: "Patient · Dentistry", quote: "Calm, beautiful, modern. My kids ask to come back. That's a first.", img: doc3 },
-    { name: "Jordan K.", role: "Patient · Family Care", quote: "Same-day appointments, kind doctors, no surprise bills. This shouldn't be rare.", img: doc1 },
-    { name: "Lin H.", role: "Patient · Optometry", quote: "The space feels like a hotel lobby. The care feels like a friend's recommendation.", img: doc2 },
-  ];
-  return (
-    <section className="py-20 sm:py-28 bg-surface/40">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 mb-10 flex flex-wrap items-end justify-between gap-4">
-        <Reveal className="max-w-xl space-y-4">
-          <SectionEyebrow>Patient stories</SectionEyebrow>
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-            Loved by the people we care for.
-          </h2>
-        </Reveal>
-      </div>
-      <div className="overflow-x-auto no-scrollbar">
-        <div className="flex gap-5 px-5 sm:px-8 pb-6 max-w-[100vw]">
-          {reviews.map((r, i) => (
-            <Reveal key={i} delay={i * 0.06}>
-              <motion.div
-                whileHover={{ y: -8, rotate: -0.5 }}
-                className="w-[300px] sm:w-[380px] shrink-0 rounded-3xl bg-card p-6 sm:p-7 shadow-soft relative"
-              >
-                <Quote className="absolute top-5 right-5 w-8 h-8 text-primary/15" />
-                <div className="flex gap-1 text-primary mb-4">
-                  {Array.from({ length: 5 }).map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
-                </div>
-                <p className="text-foreground text-lg leading-relaxed">"{r.quote}"</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <img src={r.img} alt={r.name} className="w-11 h-11 rounded-full object-cover" loading="lazy" />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{r.name}</p>
-                    <p className="text-xs text-muted-foreground">{r.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- BLOG STACK (scroll-triggered sticky stack) ---------- */
-function BlogStack() {
-  const posts = [
-    { img: blog1, tag: "Wellness", date: "May 2, 2026", title: "The 5-minute morning routine our doctors actually do.", read: "4 min" },
-    { img: blog2, tag: "Dentistry", date: "Apr 18, 2026", title: "What painless dentistry really means in 2026.", read: "6 min" },
-    { img: blog3, tag: "Vision", date: "Apr 4, 2026", title: "Screen fatigue is real. Here's what helps.", read: "5 min" },
+/* ---------- BLOG GRID — 1 large + 3 small ---------- */
+function BlogGrid() {
+  const featured = {
+    slug: "modern-clinics", img: blogHero, cat: "Inside Klaria", date: "May 2, 2026", read: "5 min",
+    title: "Why we built a clinic that feels like a hotel lobby.",
+    excerpt: "Calm spaces aren't a luxury — they're medicine. The science behind designing healthcare for the nervous system.",
+  };
+  const small = [
+    { slug: "morning-routine", img: blog1, cat: "Wellness", date: "Apr 18, 2026", read: "4 min", title: "The 5-minute morning routine our doctors actually do." },
+    { slug: "painless-dentistry", img: blog2, cat: "Dentistry", date: "Apr 9, 2026", read: "6 min", title: "What painless dentistry really means in 2026." },
+    { slug: "screen-fatigue", img: blog3, cat: "Vision", date: "Apr 2, 2026", read: "5 min", title: "Screen fatigue is real — here's what helps." },
   ];
 
   return (
     <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
-      <Reveal className="max-w-2xl space-y-4 mb-12">
-        <SectionEyebrow>From the journal</SectionEyebrow>
-        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-          Stories worth slowing down for.
-        </h2>
+      <Reveal className="flex flex-wrap items-end justify-between gap-6 mb-10 sm:mb-14">
+        <div className="max-w-xl space-y-4">
+          <SectionEyebrow>From the journal</SectionEyebrow>
+          <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
+            Stories worth slowing down for.
+          </h2>
+        </div>
+        <Link to="/blog" className="group inline-flex items-center gap-2 rounded-full bg-card px-5 py-2.5 text-sm font-semibold text-foreground shadow-soft hover:bg-foreground hover:text-background transition-colors">
+          View all <ArrowRight className="w-4 h-4 magnetic-arrow" />
+        </Link>
       </Reveal>
 
-      <div className="relative">
-        {posts.map((p, i) => (
-          <BlogStackCard key={i} post={p} index={i} total={posts.length} />
+      {/* Featured wide card */}
+      <Reveal y={40}>
+        <Link to="/blog">
+          <motion.article
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className="group relative overflow-hidden rounded-[2rem] aspect-[16/9] sm:aspect-[21/9] shadow-float"
+          >
+            <motion.img
+              src={featured.img} alt={featured.title} loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ scale: 1.1 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/30 to-transparent" />
+
+            <span className="absolute top-5 sm:top-7 left-5 sm:left-7 inline-flex items-center gap-2 rounded-full glass-strong px-3 py-1.5 text-xs font-semibold text-foreground">
+              Featured · {featured.cat}
+            </span>
+
+            <motion.div
+              whileHover={{ rotate: 45 }}
+              className="absolute top-5 sm:top-7 right-5 sm:right-7 grid place-items-center w-12 h-12 rounded-full bg-background text-foreground shadow-float"
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </motion.div>
+
+            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 text-background">
+              <div className="flex items-center gap-3 text-xs text-background/80 mb-3 font-semibold">
+                <span>{featured.date}</span>
+                <span className="w-1 h-1 rounded-full bg-background/50" />
+                <span>{featured.read} read</span>
+              </div>
+              <h3 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-balance max-w-3xl leading-[1.05]">
+                {featured.title}
+              </h3>
+              <p className="mt-3 text-background/85 max-w-xl text-base sm:text-lg hidden sm:block">{featured.excerpt}</p>
+            </div>
+          </motion.article>
+        </Link>
+      </Reveal>
+
+      {/* 3 smaller cards */}
+      <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {small.map((p, i) => (
+          <Reveal key={p.slug} delay={i * 0.08} y={30}>
+            <Link to="/blog">
+              <motion.article
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 250 }}
+                className="group h-full rounded-[1.5rem] overflow-hidden bg-card shadow-soft hover:shadow-float transition-shadow flex flex-col"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <motion.img
+                    src={p.img} alt={p.title} loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full glass-strong px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-foreground">
+                    {p.cat}
+                  </span>
+                </div>
+                <div className="p-6 flex-1 flex flex-col gap-3">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground font-semibold">
+                    <span>{p.date}</span>
+                    <span className="w-1 h-1 rounded-full bg-muted-foreground/40" />
+                    <span>{p.read} read</span>
+                  </div>
+                  <h3 className="text-xl font-extrabold text-foreground leading-tight tracking-tight text-balance group-hover:text-primary transition-colors">
+                    {p.title}
+                  </h3>
+                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                    Read article <ArrowRight className="w-4 h-4 magnetic-arrow" />
+                  </span>
+                </div>
+              </motion.article>
+            </Link>
+          </Reveal>
         ))}
       </div>
-
-      <div className="mt-12 text-center">
-        <Link to="/blog" className="group inline-flex items-center gap-2 font-semibold text-primary">
-          Read every story <ArrowRight className="w-4 h-4 magnetic-arrow" />
-        </Link>
-      </div>
     </section>
-  );
-}
-
-function BlogStackCard({ post, index, total }: { post: any; index: number; total: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1, 0.94]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.4, 1, 1, 0.5]);
-
-  return (
-    <div
-      ref={ref}
-      className="sticky"
-      style={{ top: `${110 + index * 28}px`, marginBottom: index === total - 1 ? 0 : "60vh" }}
-    >
-      <motion.article
-        style={{ scale, opacity }}
-        className="rounded-[2rem] overflow-hidden bg-card shadow-float grid md:grid-cols-2 gap-0"
-      >
-        <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden">
-          <motion.img
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.7 }}
-            src={post.img} alt={post.title}
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="lazy"
-          />
-          <div className="absolute top-5 left-5 inline-flex items-center gap-2 rounded-full glass-strong px-3 py-1 text-xs font-semibold text-foreground">
-            {post.tag}
-          </div>
-        </div>
-        <div className="p-7 sm:p-10 flex flex-col justify-between gap-6">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">{post.date} · {post.read} read</p>
-            <h3 className="mt-4 text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground text-balance leading-[1.05]">
-              {post.title}
-            </h3>
-          </div>
-          <Link to="/blog" className="group inline-flex items-center gap-2 font-semibold text-primary self-start">
-            Read article <ArrowRight className="w-4 h-4 magnetic-arrow" />
-          </Link>
-        </div>
-      </motion.article>
-    </div>
   );
 }
 
