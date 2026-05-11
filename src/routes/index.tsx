@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   ShieldCheck, Clock, Sparkles, Stethoscope, ArrowRight, ArrowUpRight,
   Star, BadgeCheck, HeartPulse, Microscope, PlayCircle, Activity,
-  CalendarCheck, ChevronDown, Quote, Download, CalendarDays, Video, Search,
+  CalendarCheck, ChevronDown, Quote,
 } from "lucide-react";
 import { PageShell, Reveal, SectionEyebrow } from "@/components/site/PageShell";
 import heroConsult from "@/assets/hero-consult.jpg";
@@ -18,13 +18,6 @@ import doc4 from "@/assets/doctor-4.jpg";
 import blog1 from "@/assets/blog-1.jpg";
 import blog2 from "@/assets/blog-2.jpg";
 import blog3 from "@/assets/blog-3.jpg";
-import careScheduling from "@/assets/care-scheduling.jpg";
-import careTelehealth from "@/assets/care-telehealth.jpg";
-import careCharting from "@/assets/care-charting.jpg";
-import action1 from "@/assets/action-1.jpg";
-import action2 from "@/assets/action-2.jpg";
-import action3 from "@/assets/action-3.jpg";
-import action4 from "@/assets/action-4.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,11 +37,11 @@ function Home() {
       <Hero />
       <TrustMarquee />
       <LiveStats />
-      <CareModern />
+      <WhyUs />
       <ServicesHighlight />
-      <TeamSlider />
+      <TeamConstellation />
       <Testimonials />
-      <BlogGrid />
+      <BlogStack />
       <FAQ />
       <FinalCTA />
     </PageShell>
@@ -67,9 +60,11 @@ function Hero() {
   return (
     <section ref={ref} className="relative overflow-hidden">
       <div className="absolute inset-0 grid-bg pointer-events-none" />
-      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-12 pb-20 sm:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-12 pb-16 sm:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         <motion.div style={{ y }} className="lg:col-span-6 space-y-7 lg:pt-6">
-          <Reveal once><SectionEyebrow>Now welcoming new patients</SectionEyebrow></Reveal>
+          <Reveal>
+            <SectionEyebrow>Now welcoming new patients</SectionEyebrow>
+          </Reveal>
 
           <h1 className="text-balance text-[2.6rem] sm:text-6xl lg:text-7xl font-extrabold tracking-tighter text-foreground leading-[0.95]">
             {words.map((w, i) => (
@@ -98,18 +93,19 @@ function Hero() {
             ))}
           </h1>
 
-          <Reveal delay={0.7} once>
+          <Reveal delay={0.7}>
             <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
               A multi-specialty clinic where world-class doctors, calm spaces, and intelligent technology come together — so you actually look forward to your appointment.
             </p>
           </Reveal>
 
-          <Reveal delay={0.8} once className="flex flex-wrap items-center gap-3">
+          <Reveal delay={0.8} className="flex flex-wrap items-center gap-3">
             <MagneticButton to="/contact" primary>Book Consultation</MagneticButton>
             <MagneticButton to="#story"><PlayCircle className="w-5 h-5 text-primary" /> Watch Our Story</MagneticButton>
           </Reveal>
 
-          <Reveal delay={0.9} once>
+          {/* Mini info card under hero copy (matches contact-page card style) */}
+          <Reveal delay={0.9}>
             <motion.div
               whileHover={{ y: -3 }}
               className="mt-6 rounded-3xl bg-card p-5 sm:p-6 shadow-soft flex items-center gap-5 max-w-md"
@@ -138,8 +134,8 @@ function Hero() {
           </Reveal>
         </motion.div>
 
-        {/* RIGHT: image stack — mobile-safe spacing for floating cards */}
-        <Reveal delay={0.2} once className="lg:col-span-6 relative mt-4 lg:mt-0 pb-16 sm:pb-12">
+        {/* RIGHT: image stack */}
+        <Reveal delay={0.2} className="lg:col-span-6 relative">
           <div className="relative">
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
@@ -154,49 +150,49 @@ function Hero() {
               />
             </motion.div>
 
-            {/* Verified — bottom-LEFT (lifted on mobile so it doesn't touch Next available) */}
+            {/* Floating verified card */}
             <motion.div
               initial={{ opacity: 0, y: 20, x: -10 }}
               animate={{ opacity: 1, y: 0, x: 0 }}
               transition={{ delay: 0.6, duration: 0.7 }}
               whileHover={{ y: -4 }}
-              className="absolute bottom-16 left-2 sm:-bottom-5 sm:-left-6 glass-strong rounded-2xl p-3 sm:p-4 shadow-float flex items-center gap-3 max-w-[220px] sm:max-w-[240px]"
+              className="absolute -bottom-5 -left-3 sm:-left-6 glass-strong rounded-2xl p-4 shadow-float flex items-center gap-3 max-w-[240px]"
             >
-              <div className="grid place-items-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary/15 text-primary">
-                <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="grid place-items-center w-11 h-11 rounded-xl bg-primary/15 text-primary">
+                <BadgeCheck className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-xs sm:text-sm font-semibold text-foreground leading-tight">Verified Specialists</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">Board-certified · Insured</p>
+                <p className="text-sm font-semibold text-foreground leading-tight">Verified Specialists</p>
+                <p className="text-xs text-muted-foreground">Board-certified · Insured</p>
               </div>
             </motion.div>
 
-            {/* Live availability — top right */}
+            {/* Live availability card */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75, duration: 0.7 }}
               whileHover={{ y: -4 }}
-              className="absolute -top-3 right-2 sm:-top-4 sm:-right-6 glass-strong rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-float"
+              className="absolute -top-4 -right-3 sm:-right-6 glass-strong rounded-2xl px-4 py-3 shadow-float"
             >
               <div className="flex items-center gap-2">
                 <span className="relative flex w-2.5 h-2.5">
                   <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
                   <span className="relative inline-flex rounded-full w-2.5 h-2.5 bg-emerald-500" />
                 </span>
-                <p className="text-[11px] sm:text-xs font-semibold text-foreground">Open today · 8:00 — 19:00</p>
+                <p className="text-xs font-semibold text-foreground">Open today · 8:00 — 19:00</p>
               </div>
             </motion.div>
 
-            {/* Next available — bottom RIGHT (separated on mobile) */}
+            {/* Live booking card — bottom right */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.9, duration: 0.7 }}
               whileHover={{ y: -4, rotate: -1 }}
-              className="absolute -bottom-6 right-2 sm:-bottom-8 sm:-right-8 glass-strong rounded-2xl p-3 sm:p-4 shadow-float w-[180px] sm:w-[220px]"
+              className="absolute -bottom-8 -right-2 sm:-right-8 glass-strong rounded-2xl p-4 shadow-float w-[220px]"
             >
-              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+              <div className="flex items-center gap-2 mb-3">
                 <CalendarCheck className="w-4 h-4 text-primary" />
                 <p className="text-xs font-semibold text-foreground">Next available</p>
               </div>
@@ -207,7 +203,7 @@ function Hero() {
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.1 + i * 0.1 }}
-                    className={`text-center text-[10px] sm:text-[11px] font-bold py-1.5 rounded-md ${i === 1 ? "bg-primary text-primary-foreground" : "bg-foreground/5 text-foreground"}`}
+                    className={`text-center text-[11px] font-bold py-1.5 rounded-md ${i === 1 ? "bg-primary text-primary-foreground" : "bg-foreground/5 text-foreground"}`}
                   >
                     {t}
                   </motion.div>
@@ -239,7 +235,6 @@ function MagneticButton({
       animate={{ x: pos.x, y: pos.y }}
       transition={{ type: "spring", stiffness: 250, damping: 18 }}
       onMouseLeave={() => setPos({ x: 0, y: 0 })}
-      whileTap={{ scale: 0.96 }}
     >
       <Comp
         ref={ref as any}
@@ -262,40 +257,18 @@ function MagneticButton({
   );
 }
 
-/* ---------- TRUST MARQUEE (premium) ---------- */
+/* ---------- TRUST MARQUEE ---------- */
 function TrustMarquee() {
-  const items = [
-    { name: "MediCare+", icon: HeartPulse },
-    { name: "Cigna", icon: ShieldCheck },
-    { name: "Aetna", icon: BadgeCheck },
-    { name: "BlueShield", icon: ShieldCheck },
-    { name: "United Health", icon: HeartPulse },
-    { name: "AMA Certified", icon: BadgeCheck },
-    { name: "WHO Partner", icon: Activity },
-    { name: "JCI Accredited", icon: Sparkles },
-  ];
+  const items = ["MediCare+", "Cigna", "Aetna", "BlueShield", "United Health", "AMA Certified", "WHO Partner", "JCI Accredited"];
   const row = [...items, ...items];
   return (
-    <section className="relative border-y border-border/60 bg-gradient-to-b from-surface/40 via-background to-surface/40">
-      <Reveal once className="max-w-6xl mx-auto px-5 sm:px-8 pt-10 pb-4 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground/80">
-          Trusted by 8,400+ patients · accredited by leading networks
-        </p>
-      </Reveal>
-      <div className="relative overflow-hidden py-8">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-background to-transparent z-10" />
-        <div className="flex gap-12 sm:gap-16 ticker whitespace-nowrap">
+    <section className="border-y border-border/60 bg-surface/50">
+      <div className="overflow-hidden py-7">
+        <div className="flex gap-14 ticker whitespace-nowrap">
           {row.map((t, i) => (
-            <div key={i} className="flex items-center gap-3 shrink-0">
-              <span className="grid place-items-center w-9 h-9 rounded-xl bg-primary/10 text-primary">
-                <t.icon className="w-4 h-4" />
-              </span>
-              <span className="text-base sm:text-lg font-display font-semibold tracking-tight text-foreground/70">
-                {t.name}
-              </span>
-              <span className="w-1 h-1 rounded-full bg-foreground/20" />
-            </div>
+            <span key={i} className="text-base sm:text-lg font-display font-semibold tracking-tight text-muted-foreground/70">
+              {t}
+            </span>
           ))}
         </div>
       </div>
@@ -303,7 +276,7 @@ function TrustMarquee() {
   );
 }
 
-/* ---------- LIVE STATS ---------- */
+/* ---------- LIVE STATS (counters) ---------- */
 function LiveStats() {
   const stats = [
     { v: 8400, suffix: "+", label: "Patients cared for" },
@@ -315,7 +288,9 @@ function LiveStats() {
     <section className="max-w-6xl mx-auto px-5 sm:px-8 py-14">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s, i) => (
-          <Reveal key={i} delay={i * 0.06}><Counter {...s} /></Reveal>
+          <Reveal key={i} delay={i * 0.06}>
+            <Counter {...s} />
+          </Reveal>
         ))}
       </div>
     </section>
@@ -350,94 +325,51 @@ function Counter({ v, suffix, label, float }: { v: number; suffix: string; label
   );
 }
 
-/* ---------- CARE THAT FEELS MODERN (glassmorphic UI cards) ---------- */
-function CareModern() {
+/* ---------- WHY US ---------- */
+function WhyUs() {
   const items = [
-    {
-      eyebrow: "Smart Scheduling",
-      icon: CalendarDays,
-      title: "Verify insurance faster, reduce claim denials.",
-      img: careScheduling,
-      cta: "Download brief",
-    },
-    {
-      eyebrow: "Secure Telehealth",
-      icon: Video,
-      title: "Send prescriptions directly to pharmacies, reduce errors.",
-      img: careTelehealth,
-      cta: "See it in action",
-    },
-    {
-      eyebrow: "AI-Powered Charting",
-      icon: Search,
-      title: "Automate claim generation, smart coding suggestions.",
-      img: careCharting,
-      cta: "Explore the tool",
-    },
+    { icon: Clock, title: "Zero wait times", body: "Book a slot, walk in, get seen. Our scheduling means your time is respected — every visit.", tone: "from-sky-500/10 to-sky-500/0" },
+    { icon: Stethoscope, title: "Expert specialists", body: "A handpicked team of board-certified specialists collaborating on your care plan.", tone: "from-emerald-500/10 to-emerald-500/0" },
+    { icon: Sparkles, title: "Modern technology", body: "From AI-assisted diagnostics to digital records — modern tools, gentler experiences.", tone: "from-amber-400/10 to-amber-400/0" },
   ];
   return (
-    <section className="relative max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
-      <Reveal className="max-w-2xl space-y-4 mb-12 sm:mb-16">
+    <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
+      <Reveal className="max-w-2xl space-y-4">
         <SectionEyebrow>Why Klaria</SectionEyebrow>
         <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-          Care that finally <span className="italic text-primary">feels modern.</span>
+          Care that finally feels modern.
         </h2>
         <p className="text-muted-foreground text-lg">
-          Intuitive tools that scale with you — from booking to follow-ups, every touchpoint is engineered to feel light, fast, and human.
+          We rebuilt the clinic from the ground up — every wait, every form, every conversation.
         </p>
       </Reveal>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+      <div className="mt-12 grid md:grid-cols-3 gap-5">
         {items.map((it, i) => (
-          <Reveal key={i} delay={i * 0.1}>
+          <Reveal key={it.title} delay={i * 0.1}>
             <motion.div
-              whileHover={{ y: -10 }}
-              transition={{ type: "spring", stiffness: 220, damping: 20 }}
-              className="group relative h-full rounded-[2rem] overflow-hidden bg-gradient-to-b from-sky-50 via-sky-100/60 to-white shadow-soft hover:shadow-float transition-shadow"
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", stiffness: 250 }}
+              className="group relative h-full rounded-3xl bg-card p-7 shadow-soft hover:shadow-float transition-shadow overflow-hidden"
             >
-              {/* Header text */}
-              <div className="px-7 pt-8 pb-6">
-                <div className="flex items-center gap-2 text-muted-foreground text-sm font-medium mb-4">
-                  <it.icon className="w-4 h-4 text-primary" />
-                  {it.eyebrow}
-                </div>
-                <h3 className="text-2xl sm:text-[1.6rem] font-bold tracking-tight text-foreground leading-tight text-balance min-h-[5rem]">
-                  {it.title}
-                </h3>
-              </div>
+              <div className={`absolute inset-0 bg-gradient-to-br ${it.tone} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-primary/5 blur-3xl group-hover:bg-primary/15 transition-colors duration-500" />
 
-              {/* UI mockup card */}
-              <div className="relative px-5 pb-5">
+              <div className="relative">
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ margin: "-60px" }}
-                  transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative rounded-2xl overflow-hidden bg-white shadow-[0_20px_60px_-25px_rgba(14,165,233,0.45)] ring-1 ring-sky-100"
+                  whileHover={{ rotate: -6, scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 280 }}
+                  className="grid place-items-center w-16 h-16 rounded-2xl bg-primary text-primary-foreground shadow-glass"
                 >
-                  <motion.img
-                    whileHover={{ scale: 1.04 }}
-                    transition={{ duration: 0.7 }}
-                    src={it.img}
-                    alt={it.eyebrow}
-                    loading="lazy"
-                    className="w-full aspect-[4/3] object-cover object-top"
-                  />
-                  {/* Floating CTA chip */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ margin: "-60px" }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
-                    className="absolute bottom-3 right-3 inline-flex items-center gap-2 rounded-full bg-foreground text-background text-xs font-semibold px-3 py-2 shadow-float"
-                  >
-                    <Download className="w-3.5 h-3.5" /> {it.cta}
-                  </motion.div>
+                  <it.icon className="w-7 h-7" />
                 </motion.div>
-              </div>
+                <h3 className="mt-6 text-2xl font-bold text-foreground">{it.title}</h3>
+                <p className="mt-3 text-muted-foreground leading-relaxed">{it.body}</p>
 
-              {/* glow */}
-              <div className="absolute -bottom-24 -right-20 w-64 h-64 rounded-full bg-primary/15 blur-3xl group-hover:bg-primary/25 transition-colors duration-500" />
+                <div className="mt-7 flex items-center gap-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-foreground/15 to-transparent" />
+                  <span className="text-3xl font-extrabold text-foreground/15 tabular-nums">0{i + 1}</span>
+                </div>
+              </div>
             </motion.div>
           </Reveal>
         ))}
@@ -469,7 +401,7 @@ function ServicesHighlight() {
                 <motion.img
                   initial={{ scale: 1.15 }}
                   whileInView={{ scale: 1 }}
-                  viewport={{ margin: "-60px" }}
+                  viewport={{ once: true }}
                   transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
                   src={it.img} alt={it.eyebrow} loading="lazy" className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -492,156 +424,115 @@ function ServicesHighlight() {
   );
 }
 
-/* ---------- TEAM SLIDER (Vitalix-inspired auto-slider) ---------- */
-function TeamSlider() {
-  const slides = [
-    {
-      img: action4,
-      tag: "Health Summary",
-      sub: "All Metrics Stable",
-      stats: [{ k: "Heart", v: "72 bpm" }, { k: "Oxygen", v: "98%" }],
-      cta: "View Reports",
-      doctor: "Dr. Amara Adeyemi · Family Medicine",
-    },
-    {
-      img: action1,
-      tag: "Lab Diagnostics",
-      sub: "Results in under 24h",
-      stats: [{ k: "Samples", v: "Processed" }, { k: "Accuracy", v: "99.2%" }],
-      cta: "See Lab Tests",
-      doctor: "Dr. Lin Hayashi · Pathology",
-    },
-    {
-      img: action2,
-      tag: "Surgical Precision",
-      sub: "Modern equipment",
-      stats: [{ k: "Procedures", v: "Daily" }, { k: "Recovery", v: "Faster" }],
-      cta: "Learn More",
-      doctor: "Dr. Marcus Bell · Surgery",
-    },
-    {
-      img: action3,
-      tag: "Research Lab",
-      sub: "End-to-end care",
-      stats: [{ k: "Studies", v: "Active" }, { k: "Privacy", v: "Protected" }],
-      cta: "Start Now",
-      doctor: "Dr. Jordan Pierce · Research",
-    },
+/* ---------- TEAM CONSTELLATION (creative people-behind-care section) ---------- */
+function TeamConstellation() {
+  const team = [
+    { img: doc1, name: "Dr. Amara Adeyemi", role: "Family Medicine", years: 12, x: "8%", y: "12%", size: "lg", delay: 0 },
+    { img: doc2, name: "Dr. Jordan Pierce", role: "Cardiology", years: 9, x: "62%", y: "4%", size: "md", delay: 0.1 },
+    { img: doc3, name: "Dr. Lin Hayashi", role: "Optometry", years: 7, x: "78%", y: "44%", size: "lg", delay: 0.2 },
+    { img: doc4, name: "Dr. Marcus Bell", role: "Physiotherapy", years: 11, x: "4%", y: "58%", size: "md", delay: 0.3 },
+    { img: doc1, name: "Dr. Priya Shah", role: "Pediatrics", years: 8, x: "44%", y: "62%", size: "sm", delay: 0.4 },
   ];
-
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % slides.length), 4200);
-    return () => clearInterval(id);
-  }, [paused, slides.length]);
-
-  // visible window of 4 cards centered on active
-  const order = Array.from({ length: slides.length }, (_, i) => (active + i) % slides.length);
 
   return (
-    <section
-      className="relative max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <div className="grid lg:grid-cols-12 gap-8 mb-10 sm:mb-14 items-end">
-        <Reveal className="lg:col-span-7 space-y-4">
+    <section className="relative max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
+      <div className="grid lg:grid-cols-12 gap-10 items-center">
+        <Reveal className="lg:col-span-5 space-y-6">
           <SectionEyebrow>The people behind your care</SectionEyebrow>
           <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-            Specialists in motion. <span className="italic text-primary">Care in action.</span>
+            A small team of <span className="italic text-primary">obsessively kind</span> specialists.
           </h2>
+          <p className="text-muted-foreground text-lg">
+            Hover any portrait — meet the person who could be looking after you next week.
+          </p>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35 }}
+              className="rounded-3xl bg-card p-6 shadow-soft"
+            >
+              <p className="text-2xl font-bold text-foreground">{team[active].name}</p>
+              <p className="text-primary font-semibold mt-1">{team[active].role}</p>
+              <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1"><Activity className="w-4 h-4 text-primary" /> {team[active].years} yrs experience</span>
+                <span className="flex items-center gap-1"><Star className="w-4 h-4 fill-primary text-primary" /> 4.9 rating</span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+          <Link to="/about" className="group inline-flex items-center gap-2 font-semibold text-foreground">
+            Meet the full team <ArrowRight className="w-4 h-4 magnetic-arrow text-primary" />
+          </Link>
         </Reveal>
-        <Reveal className="lg:col-span-5 lg:text-right" delay={0.1}>
-          <p className="text-muted-foreground">Auto-playing reel of our team at work — from labs to consultation rooms.</p>
-        </Reveal>
-      </div>
 
-      {/* Slider rail */}
-      <div className="relative">
-        <div className="flex gap-4 sm:gap-5 overflow-hidden">
-          {order.map((slideIdx, position) => {
-            const s = slides[slideIdx];
+        {/* Constellation canvas */}
+        <div className="lg:col-span-7 relative h-[460px] sm:h-[520px] dot-bg rounded-[2rem] bg-surface/40 overflow-hidden">
+          {/* Connecting svg lines */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+            <motion.line
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+              transition={{ duration: 2 }}
+              x1="15%" y1="20%" x2="68%" y2="12%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
+            />
+            <motion.line
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+              transition={{ duration: 2, delay: 0.3 }}
+              x1="68%" y1="12%" x2="83%" y2="50%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
+            />
+            <motion.line
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+              transition={{ duration: 2, delay: 0.6 }}
+              x1="83%" y1="50%" x2="50%" y2="68%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
+            />
+            <motion.line
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+              transition={{ duration: 2, delay: 0.9 }}
+              x1="50%" y1="68%" x2="11%" y2="64%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
+            />
+            <motion.line
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+              transition={{ duration: 2, delay: 1.2 }}
+              x1="11%" y1="64%" x2="15%" y2="20%" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" className="text-primary/30"
+            />
+          </svg>
+
+          {team.map((m, i) => {
+            const sz = m.size === "lg" ? "w-28 h-28 sm:w-36 sm:h-36" : m.size === "md" ? "w-24 h-24 sm:w-28 sm:h-28" : "w-20 h-20 sm:w-24 sm:h-24";
             return (
-              <motion.div
-                key={slideIdx}
-                layout
-                transition={{ type: "spring", stiffness: 180, damping: 22 }}
-                className={`relative shrink-0 rounded-[2rem] overflow-hidden shadow-float ${
-                  position === 0
-                    ? "w-[60%] sm:w-[44%] aspect-[3/4]"
-                    : "w-[40%] sm:w-[20%] aspect-[3/4] hidden sm:block"
-                }`}
-                onClick={() => setActive(slideIdx)}
-                style={{ cursor: position === 0 ? "default" : "pointer" }}
+              <motion.button
+                key={i}
+                onMouseEnter={() => setActive(i)}
+                onClick={() => setActive(i)}
+                style={{ left: m.x, top: m.y }}
+                initial={{ opacity: 0, scale: 0.6 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: m.delay, duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                animate={{ y: [0, -8, 0] }}
+                whileHover={{ scale: 1.08, zIndex: 20 }}
+                className={`absolute ${sz} rounded-full overflow-hidden shadow-float ring-4 ${active === i ? "ring-primary" : "ring-background"} transition-all`}
               >
-                <motion.img
-                  src={s.img}
-                  alt={s.doctor}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: position === 0 ? 1 : 1.05 }}
-                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-
-                {/* Glassmorphic info card — only on the lead */}
-                {position === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="absolute left-4 right-4 sm:left-6 sm:right-6 bottom-4 sm:bottom-6 rounded-2xl glass-strong p-4 sm:p-5 text-foreground"
-                  >
-                    <div className="grid place-items-center w-9 h-9 rounded-xl bg-primary/15 text-primary mb-3">
-                      <Activity className="w-4 h-4" />
-                    </div>
-                    <p className="text-lg sm:text-xl font-bold tracking-tight">{s.tag}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground">{s.sub}</p>
-                    <div className="my-3 sm:my-4 space-y-1.5 text-sm">
-                      {s.stats.map((st) => (
-                        <div key={st.k} className="flex items-center justify-between">
-                          <span className="text-muted-foreground">{st.k}:</span>
-                          <span className="font-semibold text-foreground">{st.v}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <button className="w-full rounded-full bg-foreground text-background text-sm font-semibold py-2.5 hover:bg-primary transition-colors">
-                      {s.cta}
-                    </button>
-                  </motion.div>
+                <img src={m.img} alt={m.name} className="w-full h-full object-cover" loading="lazy" />
+                {active === i && (
+                  <motion.span
+                    layoutId="team-dot"
+                    className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary ring-2 ring-background"
+                  />
                 )}
-
-                {/* Small label on inactive cards */}
-                {position !== 0 && (
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-semibold drop-shadow">{s.tag}</p>
-                  </div>
-                )}
-              </motion.div>
+              </motion.button>
             );
           })}
-        </div>
 
-        {/* Progress dots */}
-        <div className="mt-8 flex items-center justify-center gap-2">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className="group h-1.5 transition-all"
-              aria-label={`Slide ${i + 1}`}
-            >
-              <span
-                className={`block h-1.5 rounded-full transition-all ${
-                  i === active ? "bg-primary w-10" : "bg-foreground/15 w-6 group-hover:bg-foreground/30"
-                }`}
-              />
-            </button>
-          ))}
+          <motion.div
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+            transition={{ delay: 1.4 }}
+            className="absolute bottom-5 right-5 glass-strong rounded-full px-4 py-2 text-xs font-semibold text-foreground"
+          >
+            5 of 24 · hover to explore
+          </motion.div>
         </div>
       </div>
     </section>
@@ -673,13 +564,13 @@ function Testimonials() {
             <Reveal key={i} delay={i * 0.06}>
               <motion.div
                 whileHover={{ y: -8, rotate: -0.5 }}
-                className="w-[280px] sm:w-[380px] shrink-0 rounded-3xl bg-card p-6 sm:p-7 shadow-soft relative"
+                className="w-[300px] sm:w-[380px] shrink-0 rounded-3xl bg-card p-6 sm:p-7 shadow-soft relative"
               >
                 <Quote className="absolute top-5 right-5 w-8 h-8 text-primary/15" />
                 <div className="flex gap-1 text-primary mb-4">
                   {Array.from({ length: 5 }).map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
                 </div>
-                <p className="text-foreground text-base sm:text-lg leading-relaxed">"{r.quote}"</p>
+                <p className="text-foreground text-lg leading-relaxed">"{r.quote}"</p>
                 <div className="mt-6 flex items-center gap-3">
                   <img src={r.img} alt={r.name} className="w-11 h-11 rounded-full object-cover" loading="lazy" />
                   <div>
@@ -696,98 +587,79 @@ function Testimonials() {
   );
 }
 
-/* ---------- BLOG GRID (1 large + 3 small) ---------- */
-function BlogGrid() {
-  const featured = { img: blog1, tag: "Wellness", date: "May 2, 2026", title: "The 5-minute morning routine our doctors actually do.", read: "4 min", excerpt: "Small, intentional habits — built into a fast, repeatable routine that even the busiest specialists swear by." };
+/* ---------- BLOG STACK (scroll-triggered sticky stack) ---------- */
+function BlogStack() {
   const posts = [
+    { img: blog1, tag: "Wellness", date: "May 2, 2026", title: "The 5-minute morning routine our doctors actually do.", read: "4 min" },
     { img: blog2, tag: "Dentistry", date: "Apr 18, 2026", title: "What painless dentistry really means in 2026.", read: "6 min" },
     { img: blog3, tag: "Vision", date: "Apr 4, 2026", title: "Screen fatigue is real. Here's what helps.", read: "5 min" },
-    { img: blog1, tag: "Family Care", date: "Mar 22, 2026", title: "Choosing a primary care doctor you actually like.", read: "5 min" },
   ];
 
   return (
     <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
-      <Reveal className="flex flex-wrap items-end justify-between gap-4 mb-12">
-        <div className="max-w-2xl space-y-4">
-          <SectionEyebrow>From the journal</SectionEyebrow>
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-            Stories worth slowing down for.
-          </h2>
-        </div>
-        <Link to="/blog" className="group inline-flex items-center gap-2 font-semibold text-primary">
-          View all <ArrowRight className="w-4 h-4 magnetic-arrow" />
-        </Link>
+      <Reveal className="max-w-2xl space-y-4 mb-12">
+        <SectionEyebrow>From the journal</SectionEyebrow>
+        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
+          Stories worth slowing down for.
+        </h2>
       </Reveal>
 
-      {/* Featured wide card */}
-      <Reveal>
-        <motion.article
-          whileHover={{ y: -6 }}
-          transition={{ type: "spring", stiffness: 200, damping: 22 }}
-          className="group relative rounded-[2rem] overflow-hidden bg-card shadow-soft hover:shadow-float transition-shadow grid md:grid-cols-2 gap-0"
-        >
-          <div className="relative aspect-[16/10] md:aspect-auto overflow-hidden">
-            <motion.img
-              whileHover={{ scale: 1.06 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              src={featured.img} alt={featured.title}
-              className="absolute inset-0 w-full h-full object-cover"
-              loading="lazy"
-            />
-            <div className="absolute top-5 left-5 inline-flex items-center gap-2 rounded-full glass-strong px-3 py-1 text-xs font-semibold text-foreground">
-              {featured.tag}
-            </div>
-          </div>
-          <div className="p-7 sm:p-10 flex flex-col justify-between gap-6">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">{featured.date} · {featured.read} read</p>
-              <h3 className="mt-4 text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground text-balance leading-[1.05]">
-                {featured.title}
-              </h3>
-              <p className="mt-4 text-muted-foreground leading-relaxed">{featured.excerpt}</p>
-            </div>
-            <Link to="/blog" className="group/link inline-flex items-center gap-2 font-semibold text-primary self-start">
-              Read article <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
-            </Link>
-          </div>
-        </motion.article>
-      </Reveal>
-
-      {/* Three smaller cards */}
-      <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="relative">
         {posts.map((p, i) => (
-          <Reveal key={i} delay={i * 0.08}>
-            <motion.article
-              whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 220, damping: 22 }}
-              className="group h-full rounded-3xl overflow-hidden bg-card shadow-soft hover:shadow-float transition-shadow flex flex-col"
-            >
-              <div className="relative aspect-[5/3] overflow-hidden">
-                <motion.img
-                  whileHover={{ scale: 1.06 }}
-                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                  src={p.img} alt={p.title}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute top-4 left-4 inline-flex items-center gap-2 rounded-full glass-strong px-3 py-1 text-[11px] font-semibold text-foreground">
-                  {p.tag}
-                </div>
-              </div>
-              <div className="p-6 flex flex-col flex-1 gap-4">
-                <p className="text-[11px] uppercase tracking-widest text-muted-foreground font-semibold">{p.date} · {p.read}</p>
-                <h3 className="text-lg font-bold tracking-tight text-foreground text-balance leading-snug">
-                  {p.title}
-                </h3>
-                <Link to="/blog" className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                  Read <ArrowRight className="w-4 h-4 magnetic-arrow" />
-                </Link>
-              </div>
-            </motion.article>
-          </Reveal>
+          <BlogStackCard key={i} post={p} index={i} total={posts.length} />
         ))}
       </div>
+
+      <div className="mt-12 text-center">
+        <Link to="/blog" className="group inline-flex items-center gap-2 font-semibold text-primary">
+          Read every story <ArrowRight className="w-4 h-4 magnetic-arrow" />
+        </Link>
+      </div>
     </section>
+  );
+}
+
+function BlogStackCard({ post, index, total }: { post: any; index: number; total: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1, 0.94]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.4, 1, 1, 0.5]);
+
+  return (
+    <div
+      ref={ref}
+      className="sticky"
+      style={{ top: `${110 + index * 28}px`, marginBottom: index === total - 1 ? 0 : "60vh" }}
+    >
+      <motion.article
+        style={{ scale, opacity }}
+        className="rounded-[2rem] overflow-hidden bg-card shadow-float grid md:grid-cols-2 gap-0"
+      >
+        <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden">
+          <motion.img
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.7 }}
+            src={post.img} alt={post.title}
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute top-5 left-5 inline-flex items-center gap-2 rounded-full glass-strong px-3 py-1 text-xs font-semibold text-foreground">
+            {post.tag}
+          </div>
+        </div>
+        <div className="p-7 sm:p-10 flex flex-col justify-between gap-6">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">{post.date} · {post.read} read</p>
+            <h3 className="mt-4 text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground text-balance leading-[1.05]">
+              {post.title}
+            </h3>
+          </div>
+          <Link to="/blog" className="group inline-flex items-center gap-2 font-semibold text-primary self-start">
+            Read article <ArrowRight className="w-4 h-4 magnetic-arrow" />
+          </Link>
+        </div>
+      </motion.article>
+    </div>
   );
 }
 
@@ -860,41 +732,51 @@ function FinalCTA() {
         <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/10 blur-3xl" />
         <div className="absolute -bottom-32 -left-20 w-96 h-96 rounded-full bg-white/8 blur-3xl" />
         <div className="relative grid lg:grid-cols-12 gap-10 items-center">
-          <Reveal className="lg:col-span-7 space-y-5">
+          <Reveal className="lg:col-span-6 space-y-5">
             <SectionEyebrow>Take the first step</SectionEyebrow>
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-balance">
-              Your healthier chapter starts on a Tuesday.
+              Your healthier next chapter starts with a conversation.
             </h2>
-            <p className="text-primary-foreground/85 text-lg max-w-xl">
-              Book a 30-minute introductory consultation. No pressure, no upsells — just a conversation about you.
+            <p className="text-primary-foreground/85 text-lg max-w-md">
+              Pick a time that suits you. We'll handle the rest — paperwork, reminders, follow-ups.
             </p>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <MagneticButton to="/contact" primary>Book Consultation</MagneticButton>
-              <MagneticButton to="/services">Explore Services</MagneticButton>
-            </div>
+            <ul className="grid gap-2 text-sm text-primary-foreground/90">
+              <li className="flex gap-2 items-center"><BadgeCheck className="w-4 h-4" /> Same-day confirmation</li>
+              <li className="flex gap-2 items-center"><BadgeCheck className="w-4 h-4" /> 24h free cancellation</li>
+              <li className="flex gap-2 items-center"><BadgeCheck className="w-4 h-4" /> Most insurance accepted</li>
+            </ul>
           </Reveal>
-          <Reveal delay={0.15} className="lg:col-span-5">
-            <div className="rounded-3xl bg-background/15 backdrop-blur-md p-6 ring-1 ring-white/20">
-              <p className="text-sm font-semibold text-primary-foreground/90 mb-4">This week's openings</p>
-              <div className="space-y-2">
-                {[
-                  { d: "Tue · May 12", t: "9:00 AM" },
-                  { d: "Wed · May 13", t: "2:30 PM" },
-                  { d: "Fri · May 15", t: "11:00 AM" },
-                ].map((s, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ margin: "-60px" }}
-                    transition={{ delay: i * 0.1, duration: 0.5 }}
-                    className="flex items-center justify-between rounded-2xl bg-background/15 px-4 py-3"
+          <Reveal delay={0.1} className="lg:col-span-6">
+            <div className="rounded-2xl bg-background/95 text-foreground p-6 shadow-float">
+              <p className="font-display font-semibold text-foreground/80 mb-3">Schedule online</p>
+              <div className="grid sm:grid-cols-2 gap-3 mb-4">
+                {["Mon, Jun 8", "Tue, Jun 9", "Wed, Jun 10", "Thu, Jun 11"].map((d, i) => (
+                  <motion.button
+                    key={d}
+                    whileHover={{ y: -2, borderColor: "var(--primary)" }}
+                    className={`rounded-xl border border-border px-4 py-3 text-sm font-semibold text-left transition-colors ${i === 1 ? "border-primary text-primary" : "text-foreground"}`}
                   >
-                    <span className="font-semibold">{s.d}</span>
-                    <span className="text-sm font-bold rounded-full bg-background text-foreground px-3 py-1">{s.t}</span>
-                  </motion.div>
+                    {d}
+                  </motion.button>
                 ))}
               </div>
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-5">
+                {["09:00", "10:30", "13:00", "14:30", "16:00", "17:30"].map((t, i) => (
+                  <motion.button
+                    key={t}
+                    whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
+                    className={`rounded-lg px-2 py-2 text-xs font-semibold transition-colors ${i === 1 ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-primary-soft"}`}
+                  >
+                    {t}
+                  </motion.button>
+                ))}
+              </div>
+              <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+                <Link to="/contact" className="block w-full rounded-xl bg-primary text-primary-foreground py-3 text-center font-semibold hover:bg-primary/90 transition-colors">
+                  Confirm appointment
+                </Link>
+              </motion.div>
+              <p className="mt-3 text-xs text-muted-foreground text-center">Powered by Calendly · Free to book</p>
             </div>
           </Reveal>
         </div>
