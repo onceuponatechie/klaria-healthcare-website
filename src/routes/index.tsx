@@ -133,7 +133,7 @@ function Hero() {
               </div>
             </motion.div>
           </Reveal>
-        </motion.div>
+        </div>
 
         {/* RIGHT: image stack */}
         <Reveal delay={0.2} className="lg:col-span-6 relative">
@@ -144,20 +144,19 @@ function Hero() {
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="relative aspect-[4/5] sm:aspect-[5/6] rounded-[2rem] overflow-hidden shadow-float"
             >
-              <motion.img
-                style={{ scale: imgScale }}
+              <img
                 src={heroConsult} alt="Doctor with patient at Klaria Health"
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </motion.div>
 
-            {/* Verified card — top-left on mobile, bottom-left on desktop */}
+            {/* Verified card — sits just above Next-available on mobile, bottom-left on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 20, x: -10 }}
               animate={{ opacity: 1, y: 0, x: 0 }}
               transition={{ delay: 0.6, duration: 0.7 }}
               whileHover={{ y: -4 }}
-              className="absolute -top-4 left-3 sm:top-auto sm:-bottom-5 sm:-left-6 glass-strong rounded-2xl p-3 sm:p-4 shadow-float flex items-center gap-3 max-w-[220px]"
+              className="absolute -bottom-6 left-2 sm:bottom-auto sm:-bottom-5 sm:-left-6 glass-strong rounded-2xl p-3 sm:p-4 shadow-float flex items-center gap-3 max-w-[200px] sm:max-w-[220px]"
             >
               <div className="grid place-items-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary/15 text-primary shrink-0">
                 <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6" />
