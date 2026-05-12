@@ -324,147 +324,7 @@ function ShowDontTell() {
         </p>
       </Reveal>
 
-      <div className="grid md:grid-cols-12 gap-4 sm:gap-5">
-        {/* CARD 1 — calm space photo */}
-        <Reveal className="md:col-span-4" y={40}>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 250 }}
-            className="group relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden shadow-soft"
-          >
-            <motion.img
-              src={whyCalm}
-              alt="Calm modern clinic interior"
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ scale: 1.1 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-transparent" />
-            <motion.a
-              whileHover={{ rotate: 45, scale: 1.1 }}
-              href="/about"
-              className="absolute top-4 right-4 grid place-items-center w-11 h-11 rounded-full bg-background text-foreground shadow-float"
-            >
-              <ArrowUpRight className="w-5 h-5" />
-            </motion.a>
-            <div className="absolute bottom-5 left-5 right-5 text-background space-y-1">
-              <div className="flex gap-2 mb-2">
-                <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Calm</span>
-                <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Quiet</span>
-              </div>
-              <p className="text-2xl font-bold tracking-tight leading-tight">Spaces designed to lower your pulse.</p>
-              <p className="text-sm text-background/80 max-w-[18rem]">Soft lighting, real plants, no fluorescent buzz. The room itself is medicine.</p>
-            </div>
-          </motion.div>
-        </Reveal>
-
-        {/* CARD 2 — bold blue stat showcase */}
-        <Reveal className="md:col-span-5" delay={0.1} y={40}>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 250 }}
-            className="relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden bg-gradient-to-br from-primary via-[oklch(0.6_0.18_235)] to-[oklch(0.45_0.2_245)] text-primary-foreground p-7 sm:p-9 shadow-float"
-          >
-            {/* Animated noise / orbs */}
-            <motion.div
-              animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-              transition={{ duration: 6, repeat: Infinity }}
-              className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/30 blur-3xl"
-            />
-            <motion.div
-              animate={{ scale: [1.1, 1, 1.1], opacity: [0.25, 0.45, 0.25] }}
-              transition={{ duration: 7, repeat: Infinity }}
-              className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-white/20 blur-3xl"
-            />
-
-            <div className="relative h-full flex flex-col justify-between">
-              <div className="flex items-start justify-between gap-3">
-                <div className="grid place-items-center w-11 h-11 rounded-2xl bg-background/20 backdrop-blur-md">
-                  <TrendingUp className="w-5 h-5" />
-                </div>
-                <div className="flex gap-2">
-                  <span className="rounded-full bg-background/15 backdrop-blur-md px-3 py-1.5 text-xs font-semibold">This Year</span>
-                  <button className="grid place-items-center w-8 h-8 rounded-full bg-background/15 backdrop-blur-md text-base font-bold leading-none">···</button>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <AnimatedStat value={94} suffix="%" />
-                <p className="font-display font-bold text-xl">Patients leave smiling</p>
-                <p className="text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
-                  Measured monthly. We share the number internally — and we obsess over moving it up.
-                </p>
-
-                {/* Mini pagination dots like the inspiration */}
-                <div className="flex items-center justify-between pt-4">
-                  <button className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
-                    <ChevronDown className="w-4 h-4 -rotate-90" />
-                  </button>
-                  <div className="flex items-center gap-1.5 flex-1 mx-3">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <span key={i} className={`h-1 rounded-full transition-all ${i === 1 ? "flex-[2] bg-background" : "flex-1 bg-background/30"}`} />
-                    ))}
-                  </div>
-                  <button className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
-                    <ChevronDown className="w-4 h-4 rotate-[270deg]" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </Reveal>
-
-        {/* CARD 3 — Expert care with portrait */}
-        <Reveal className="md:col-span-3" delay={0.2} y={40}>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 250 }}
-            className="relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden bg-card shadow-soft p-6 flex flex-col"
-          >
-            <motion.a
-              whileHover={{ rotate: 45, scale: 1.1 }}
-              href="/about"
-              className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-full bg-foreground text-background shadow-soft z-10"
-            >
-              <ArrowUpRight className="w-4 h-4" />
-            </motion.a>
-
-            <h3 className="font-display text-2xl font-bold text-foreground tracking-tight leading-tight">
-              Expert Care
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-[14rem]">
-              A team of board-certified specialists collaborating on your care plan.
-            </p>
-
-            {/* Portrait floating on a soft brand wash */}
-            <div className="relative mt-4 -mx-6 -mb-6 flex-1 rounded-b-[1.75rem] overflow-hidden bg-primary-soft">
-              <motion.img
-                src={whyDoctor}
-                alt="Klaria specialist"
-                loading="lazy"
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[110%] object-cover object-top"
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
-              <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-foreground">
-                <div>
-                  <p className="text-2xl font-extrabold tracking-tight">12<span className="text-primary">+</span></p>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Specialists</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-2xl font-extrabold tracking-tight">50<span className="text-primary">+</span></p>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Yrs combined</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </Reveal>
-      </div>
+      <ShowDontTellCards />
 
       {/* Quick value strip */}
       <div className="mt-5 grid sm:grid-cols-3 gap-4">
@@ -490,26 +350,194 @@ function ShowDontTell() {
   );
 }
 
+/* ---------- ShowDontTell — three equal-sized cards ---------- */
+function ShowDontTellCards() {
+  return (
+    <div className="grid md:grid-cols-3 gap-4 sm:gap-5">
+      {/* CARD 1 — calm space photo */}
+      <Reveal>
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ type: "spring", stiffness: 250 }}
+          className="group relative aspect-[4/5] h-full rounded-[1.75rem] overflow-hidden shadow-soft"
+        >
+          <img
+            src={whyCalm}
+            alt="Calm modern clinic interior"
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/15 to-transparent" />
+          <motion.a
+            whileHover={{ rotate: 45, scale: 1.1 }}
+            href="/about"
+            className="absolute top-4 right-4 grid place-items-center w-11 h-11 rounded-full bg-background text-foreground shadow-float"
+          >
+            <ArrowUpRight className="w-5 h-5" />
+          </motion.a>
+          <div className="absolute bottom-5 left-5 right-5 text-background space-y-1">
+            <div className="flex gap-2 mb-2">
+              <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Calm</span>
+              <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Quiet</span>
+            </div>
+            <p className="text-xl sm:text-2xl font-bold tracking-tight leading-tight">Spaces designed to lower your pulse.</p>
+            <p className="text-sm text-background/80">Soft lighting, real plants, no fluorescent buzz.</p>
+          </div>
+        </motion.div>
+      </Reveal>
+
+      {/* CARD 2 — cycling stat showcase */}
+      <Reveal delay={0.1}>
+        <CyclingStatCard />
+      </Reveal>
+
+      {/* CARD 3 — Expert care with portrait */}
+      <Reveal delay={0.2}>
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ type: "spring", stiffness: 250 }}
+          className="relative aspect-[4/5] h-full rounded-[1.75rem] overflow-hidden bg-card shadow-soft p-6 flex flex-col"
+        >
+          <motion.a
+            whileHover={{ rotate: 45, scale: 1.1 }}
+            href="/about"
+            className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-full bg-foreground text-background shadow-soft z-10"
+          >
+            <ArrowUpRight className="w-4 h-4" />
+          </motion.a>
+
+          <h3 className="font-display text-2xl font-bold text-foreground tracking-tight leading-tight">
+            Expert Care
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1 max-w-[14rem]">
+            Board-certified specialists collaborating on your care plan.
+          </p>
+
+          <div className="relative mt-4 -mx-6 -mb-6 flex-1 rounded-b-[1.75rem] overflow-hidden bg-primary-soft">
+            <img
+              src={whyDoctor}
+              alt="Klaria specialist"
+              loading="lazy"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[110%] object-cover object-top"
+            />
+            <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-foreground">
+              <div>
+                <p className="text-2xl font-extrabold tracking-tight">12<span className="text-primary">+</span></p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Specialists</p>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-extrabold tracking-tight">50<span className="text-primary">+</span></p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Yrs combined</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </Reveal>
+    </div>
+  );
+}
+
+/* ---------- Cycling stat card (auto-rotates 6 stats) ---------- */
+const CYCLE_STATS = [
+  { value: 94, suffix: "%", title: "Patients leave smiling", body: "Measured monthly. We share the number internally — and we obsess over moving it up." },
+  { value: 8400, suffix: "+", title: "Patients cared for", body: "Across Brooklyn, Queens, and Manhattan since we opened our doors." },
+  { value: 12, suffix: "+", title: "Board-certified specialists", body: "One collaborative team — never siloed, never rushed, never on autopilot." },
+  { value: 4.9, suffix: "/5", title: "Average review score", body: "From 1,200+ verified reviews on Google, Healthgrades, and Zocdoc." },
+  { value: 3, suffix: " min", title: "Average wait time", body: "Book a slot, walk in, get seen. We respect your time as much as ours." },
+  { value: 98, suffix: "%", title: "Would recommend us", body: "To a friend, a parent, a child. The truest measure of care done right." },
+];
+
+function CyclingStatCard() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((p) => (p + 1) % CYCLE_STATS.length), 4000);
+    return () => clearInterval(id);
+  }, []);
+  const stat = CYCLE_STATS[i];
+  const next = () => setI((p) => (p + 1) % CYCLE_STATS.length);
+  const prev = () => setI((p) => (p - 1 + CYCLE_STATS.length) % CYCLE_STATS.length);
+  return (
+    <motion.div
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 250 }}
+      className="relative aspect-[4/5] h-full rounded-[1.75rem] overflow-hidden bg-gradient-to-br from-primary via-[oklch(0.6_0.18_235)] to-[oklch(0.45_0.2_245)] text-primary-foreground p-6 sm:p-7 shadow-float"
+    >
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 6, repeat: Infinity }}
+        className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/30 blur-3xl"
+      />
+      <motion.div
+        animate={{ scale: [1.1, 1, 1.1], opacity: [0.25, 0.45, 0.25] }}
+        transition={{ duration: 7, repeat: Infinity }}
+        className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-white/20 blur-3xl"
+      />
+
+      <div className="relative h-full flex flex-col justify-between gap-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="grid place-items-center w-11 h-11 rounded-2xl bg-background/20 backdrop-blur-md">
+            <TrendingUp className="w-5 h-5" />
+          </div>
+          <span className="rounded-full bg-background/15 backdrop-blur-md px-3 py-1.5 text-xs font-semibold">This Year</span>
+        </div>
+
+        <div className="space-y-3 min-h-0">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-2"
+            >
+              <AnimatedStat value={stat.value} suffix={stat.suffix} />
+              <p className="font-display font-bold text-lg sm:text-xl leading-tight">{stat.title}</p>
+              <p className="text-primary-foreground/80 text-xs sm:text-sm leading-relaxed">
+                {stat.body}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="flex items-center justify-between pt-2">
+            <button onClick={prev} aria-label="Previous stat" className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
+              <ChevronDown className="w-4 h-4 rotate-90" />
+            </button>
+            <div className="flex items-center gap-1.5 flex-1 mx-3">
+              {CYCLE_STATS.map((_, idx) => (
+                <span key={idx} className={`h-1 rounded-full transition-all ${idx === i ? "flex-[2] bg-background" : "flex-1 bg-background/30"}`} />
+              ))}
+            </div>
+            <button onClick={next} aria-label="Next stat" className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
+              <ChevronDown className="w-4 h-4 -rotate-90" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function AnimatedStat({ value, suffix }: { value: number; suffix: string }) {
   const [n, setN] = useState(0);
+  useEffect(() => {
+    const dur = 1200;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(eased * value);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  const display = value % 1 !== 0 ? n.toFixed(1) : Math.round(n).toLocaleString();
   return (
-    <motion.p
-      onViewportEnter={() => {
-        const dur = 1400; const start = performance.now();
-        const tick = (t: number) => {
-          const p = Math.min(1, (t - start) / dur);
-          const eased = 1 - Math.pow(1 - p, 3);
-          setN(eased * value);
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }}
-      onViewportLeave={() => setN(0)}
-      viewport={{ amount: 0.4 }}
-      className="font-display text-7xl sm:text-8xl font-extrabold tracking-tighter leading-none"
-    >
-      +{Math.round(n)}<span className="text-background/70">{suffix}</span>
-    </motion.p>
+    <p className="font-display text-5xl sm:text-6xl font-extrabold tracking-tighter leading-none">
+      {display}<span className="text-background/70">{suffix}</span>
+    </p>
   );
 }
 
