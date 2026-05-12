@@ -812,13 +812,9 @@ function BlogGrid() {
             transition={{ type: "spring", stiffness: 200 }}
             className="group relative overflow-hidden rounded-[2rem] aspect-[16/9] sm:aspect-[21/9] shadow-float"
           >
-            <motion.img
+            <img
               src={featured.img} alt={featured.title} loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ scale: 1.1 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/30 to-transparent" />
 
