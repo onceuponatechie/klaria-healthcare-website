@@ -57,18 +57,13 @@ function Home() {
 
 /* ---------- HERO ---------- */
 function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-
   const words = ["Modern", "care,", "reimagined", "for", "you."];
 
   return (
-    <section ref={ref} className="relative overflow-hidden">
+    <section className="relative overflow-hidden">
       <div className="absolute inset-0 grid-bg pointer-events-none" />
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-12 pb-24 sm:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-        <motion.div style={{ y }} className="lg:col-span-6 space-y-7 lg:pt-6">
+        <div className="lg:col-span-6 space-y-7 lg:pt-6">
           <Reveal>
             <SectionEyebrow>Now welcoming new patients</SectionEyebrow>
           </Reveal>
