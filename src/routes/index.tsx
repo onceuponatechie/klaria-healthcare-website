@@ -317,7 +317,7 @@ function ShowDontTell() {
       <Reveal className="max-w-3xl space-y-4 mb-12 sm:mb-16">
         <SectionEyebrow>Why Klaria</SectionEyebrow>
         <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
-          Care that finally <span className="italic text-primary">feels</span> modern.
+          Care that finally <Underlined>feels</Underlined> modern.
         </h2>
         <p className="text-muted-foreground text-lg max-w-xl">
           We rebuilt the clinic from the ground up — every wait, every form, every conversation.
@@ -576,7 +576,7 @@ function DoctorsMarquee() {
         <Reveal className="lg:col-span-7 space-y-4">
           <SectionEyebrow>The people behind your care</SectionEyebrow>
           <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
-            Specialists you'd recommend to your <span className="italic text-primary">mother</span>.
+            Specialists you'd recommend to your <Underlined>mother</Underlined>.
           </h2>
         </Reveal>
         <Reveal delay={0.1} className="lg:col-span-5">
@@ -667,7 +667,7 @@ function Testimonials() {
         <Reveal className="lg:col-span-5 space-y-5">
           <SectionEyebrow>Patient stories</SectionEyebrow>
           <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
-            Loved by the people we <span className="italic text-primary">care for</span>.
+            Loved by the people we <Underlined>care for</Underlined>.
           </h2>
           <div className="flex items-center gap-3 pt-2">
             <div className="flex gap-0.5">
