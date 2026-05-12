@@ -16,23 +16,19 @@ export function PageShell({ children }: { children: ReactNode }) {
 }
 
 /**
- * Bidirectional scroll-triggered reveal.
- * Re-animates every time the element enters/leaves the viewport.
+ * Load-only reveal — animates once when the page mounts. No scroll triggers.
  */
 export function Reveal({
   children,
   delay = 0,
-  y = 24,
+  y = 16,
   className,
-  amount = 0.15,
 }: { children: ReactNode; delay?: number; y?: number; className?: string; amount?: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      exit={{ opacity: 0, y: -y, filter: "blur(6px)" }}
-      viewport={{ once: false, amount, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0, y }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}

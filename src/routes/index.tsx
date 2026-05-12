@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
   ShieldCheck, Clock, Sparkles, Stethoscope, ArrowRight, ArrowUpRight,
   Star, BadgeCheck, HeartPulse, Microscope, PlayCircle,
@@ -57,18 +57,13 @@ function Home() {
 
 /* ---------- HERO ---------- */
 function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-
   const words = ["Modern", "care,", "reimagined", "for", "you."];
 
   return (
-    <section ref={ref} className="relative overflow-hidden">
+    <section className="relative overflow-hidden">
       <div className="absolute inset-0 grid-bg pointer-events-none" />
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-12 pb-24 sm:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-        <motion.div style={{ y }} className="lg:col-span-6 space-y-7 lg:pt-6">
+        <div className="lg:col-span-6 space-y-7 lg:pt-6">
           <Reveal>
             <SectionEyebrow>Now welcoming new patients</SectionEyebrow>
           </Reveal>
@@ -138,7 +133,7 @@ function Hero() {
               </div>
             </motion.div>
           </Reveal>
-        </motion.div>
+        </div>
 
         {/* RIGHT: image stack */}
         <Reveal delay={0.2} className="lg:col-span-6 relative">
@@ -149,20 +144,19 @@ function Hero() {
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="relative aspect-[4/5] sm:aspect-[5/6] rounded-[2rem] overflow-hidden shadow-float"
             >
-              <motion.img
-                style={{ scale: imgScale }}
+              <img
                 src={heroConsult} alt="Doctor with patient at Klaria Health"
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </motion.div>
 
-            {/* Verified card — top-left on mobile, bottom-left on desktop */}
+            {/* Verified card — sits just above Next-available on mobile, bottom-left on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 20, x: -10 }}
               animate={{ opacity: 1, y: 0, x: 0 }}
               transition={{ delay: 0.6, duration: 0.7 }}
               whileHover={{ y: -4 }}
-              className="absolute -top-4 left-3 sm:top-auto sm:-bottom-5 sm:-left-6 glass-strong rounded-2xl p-3 sm:p-4 shadow-float flex items-center gap-3 max-w-[220px]"
+              className="absolute -bottom-6 left-2 sm:bottom-auto sm:-bottom-5 sm:-left-6 glass-strong rounded-2xl p-3 sm:p-4 shadow-float flex items-center gap-3 max-w-[200px] sm:max-w-[220px]"
             >
               <div className="grid place-items-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary/15 text-primary shrink-0">
                 <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -263,6 +257,22 @@ function MagneticButton({
   );
 }
 
+/* ---------- UNDERLINED accent (matches "reimagined" in hero) ---------- */
+function Underlined({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="relative inline-block text-primary">
+      {children}
+      <svg
+        aria-hidden
+        className="absolute -bottom-1 left-0 w-full h-3 text-primary/50"
+        viewBox="0 0 200 12" preserveAspectRatio="none"
+      >
+        <path d="M2 8 Q 50 1 100 6 T 198 5" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+      </svg>
+    </span>
+  );
+}
+
 /* ---------- TRUST MARQUEE (upgraded) ---------- */
 function TrustMarquee() {
   const items = [
@@ -307,154 +317,14 @@ function ShowDontTell() {
       <Reveal className="max-w-3xl space-y-4 mb-12 sm:mb-16">
         <SectionEyebrow>Why Klaria</SectionEyebrow>
         <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
-          Care that finally <span className="italic text-primary">feels</span> modern.
+          Care that finally <Underlined>feels</Underlined> modern.
         </h2>
         <p className="text-muted-foreground text-lg max-w-xl">
           We rebuilt the clinic from the ground up — every wait, every form, every conversation.
         </p>
       </Reveal>
 
-      <div className="grid md:grid-cols-12 gap-4 sm:gap-5">
-        {/* CARD 1 — calm space photo */}
-        <Reveal className="md:col-span-4" y={40}>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 250 }}
-            className="group relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden shadow-soft"
-          >
-            <motion.img
-              src={whyCalm}
-              alt="Calm modern clinic interior"
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ scale: 1.1 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-transparent" />
-            <motion.a
-              whileHover={{ rotate: 45, scale: 1.1 }}
-              href="/about"
-              className="absolute top-4 right-4 grid place-items-center w-11 h-11 rounded-full bg-background text-foreground shadow-float"
-            >
-              <ArrowUpRight className="w-5 h-5" />
-            </motion.a>
-            <div className="absolute bottom-5 left-5 right-5 text-background space-y-1">
-              <div className="flex gap-2 mb-2">
-                <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Calm</span>
-                <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Quiet</span>
-              </div>
-              <p className="text-2xl font-bold tracking-tight leading-tight">Spaces designed to lower your pulse.</p>
-              <p className="text-sm text-background/80 max-w-[18rem]">Soft lighting, real plants, no fluorescent buzz. The room itself is medicine.</p>
-            </div>
-          </motion.div>
-        </Reveal>
-
-        {/* CARD 2 — bold blue stat showcase */}
-        <Reveal className="md:col-span-5" delay={0.1} y={40}>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 250 }}
-            className="relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden bg-gradient-to-br from-primary via-[oklch(0.6_0.18_235)] to-[oklch(0.45_0.2_245)] text-primary-foreground p-7 sm:p-9 shadow-float"
-          >
-            {/* Animated noise / orbs */}
-            <motion.div
-              animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-              transition={{ duration: 6, repeat: Infinity }}
-              className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/30 blur-3xl"
-            />
-            <motion.div
-              animate={{ scale: [1.1, 1, 1.1], opacity: [0.25, 0.45, 0.25] }}
-              transition={{ duration: 7, repeat: Infinity }}
-              className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-white/20 blur-3xl"
-            />
-
-            <div className="relative h-full flex flex-col justify-between">
-              <div className="flex items-start justify-between gap-3">
-                <div className="grid place-items-center w-11 h-11 rounded-2xl bg-background/20 backdrop-blur-md">
-                  <TrendingUp className="w-5 h-5" />
-                </div>
-                <div className="flex gap-2">
-                  <span className="rounded-full bg-background/15 backdrop-blur-md px-3 py-1.5 text-xs font-semibold">This Year</span>
-                  <button className="grid place-items-center w-8 h-8 rounded-full bg-background/15 backdrop-blur-md text-base font-bold leading-none">···</button>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <AnimatedStat value={94} suffix="%" />
-                <p className="font-display font-bold text-xl">Patients leave smiling</p>
-                <p className="text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
-                  Measured monthly. We share the number internally — and we obsess over moving it up.
-                </p>
-
-                {/* Mini pagination dots like the inspiration */}
-                <div className="flex items-center justify-between pt-4">
-                  <button className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
-                    <ChevronDown className="w-4 h-4 -rotate-90" />
-                  </button>
-                  <div className="flex items-center gap-1.5 flex-1 mx-3">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <span key={i} className={`h-1 rounded-full transition-all ${i === 1 ? "flex-[2] bg-background" : "flex-1 bg-background/30"}`} />
-                    ))}
-                  </div>
-                  <button className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
-                    <ChevronDown className="w-4 h-4 rotate-[270deg]" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </Reveal>
-
-        {/* CARD 3 — Expert care with portrait */}
-        <Reveal className="md:col-span-3" delay={0.2} y={40}>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 250 }}
-            className="relative aspect-[4/5] md:h-full rounded-[1.75rem] overflow-hidden bg-card shadow-soft p-6 flex flex-col"
-          >
-            <motion.a
-              whileHover={{ rotate: 45, scale: 1.1 }}
-              href="/about"
-              className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-full bg-foreground text-background shadow-soft z-10"
-            >
-              <ArrowUpRight className="w-4 h-4" />
-            </motion.a>
-
-            <h3 className="font-display text-2xl font-bold text-foreground tracking-tight leading-tight">
-              Expert Care
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-[14rem]">
-              A team of board-certified specialists collaborating on your care plan.
-            </p>
-
-            {/* Portrait floating on a soft brand wash */}
-            <div className="relative mt-4 -mx-6 -mb-6 flex-1 rounded-b-[1.75rem] overflow-hidden bg-primary-soft">
-              <motion.img
-                src={whyDoctor}
-                alt="Klaria specialist"
-                loading="lazy"
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[110%] object-cover object-top"
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
-              <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-foreground">
-                <div>
-                  <p className="text-2xl font-extrabold tracking-tight">12<span className="text-primary">+</span></p>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Specialists</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-2xl font-extrabold tracking-tight">50<span className="text-primary">+</span></p>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Yrs combined</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </Reveal>
-      </div>
+      <ShowDontTellCards />
 
       {/* Quick value strip */}
       <div className="mt-5 grid sm:grid-cols-3 gap-4">
@@ -480,26 +350,194 @@ function ShowDontTell() {
   );
 }
 
+/* ---------- ShowDontTell — three equal-sized cards ---------- */
+function ShowDontTellCards() {
+  return (
+    <div className="grid md:grid-cols-3 gap-4 sm:gap-5">
+      {/* CARD 1 — calm space photo */}
+      <Reveal>
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ type: "spring", stiffness: 250 }}
+          className="group relative aspect-[4/5] h-full rounded-[1.75rem] overflow-hidden shadow-soft"
+        >
+          <img
+            src={whyCalm}
+            alt="Calm modern clinic interior"
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/15 to-transparent" />
+          <motion.a
+            whileHover={{ rotate: 45, scale: 1.1 }}
+            href="/about"
+            className="absolute top-4 right-4 grid place-items-center w-11 h-11 rounded-full bg-background text-foreground shadow-float"
+          >
+            <ArrowUpRight className="w-5 h-5" />
+          </motion.a>
+          <div className="absolute bottom-5 left-5 right-5 text-background space-y-1">
+            <div className="flex gap-2 mb-2">
+              <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Calm</span>
+              <span className="rounded-full bg-background/20 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">Quiet</span>
+            </div>
+            <p className="text-xl sm:text-2xl font-bold tracking-tight leading-tight">Spaces designed to lower your pulse.</p>
+            <p className="text-sm text-background/80">Soft lighting, real plants, no fluorescent buzz.</p>
+          </div>
+        </motion.div>
+      </Reveal>
+
+      {/* CARD 2 — cycling stat showcase */}
+      <Reveal delay={0.1}>
+        <CyclingStatCard />
+      </Reveal>
+
+      {/* CARD 3 — Expert care with portrait */}
+      <Reveal delay={0.2}>
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ type: "spring", stiffness: 250 }}
+          className="relative aspect-[4/5] h-full rounded-[1.75rem] overflow-hidden bg-card shadow-soft p-6 flex flex-col"
+        >
+          <motion.a
+            whileHover={{ rotate: 45, scale: 1.1 }}
+            href="/about"
+            className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-full bg-foreground text-background shadow-soft z-10"
+          >
+            <ArrowUpRight className="w-4 h-4" />
+          </motion.a>
+
+          <h3 className="font-display text-2xl font-bold text-foreground tracking-tight leading-tight">
+            Expert Care
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1 max-w-[14rem]">
+            Board-certified specialists collaborating on your care plan.
+          </p>
+
+          <div className="relative mt-4 -mx-6 -mb-6 flex-1 rounded-b-[1.75rem] overflow-hidden bg-primary-soft">
+            <img
+              src={whyDoctor}
+              alt="Klaria specialist"
+              loading="lazy"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[110%] object-cover object-top"
+            />
+            <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-foreground">
+              <div>
+                <p className="text-2xl font-extrabold tracking-tight">12<span className="text-primary">+</span></p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Specialists</p>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-extrabold tracking-tight">50<span className="text-primary">+</span></p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Yrs combined</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </Reveal>
+    </div>
+  );
+}
+
+/* ---------- Cycling stat card (auto-rotates 6 stats) ---------- */
+const CYCLE_STATS = [
+  { value: 94, suffix: "%", title: "Patients leave smiling", body: "Measured monthly. We share the number internally — and we obsess over moving it up." },
+  { value: 8400, suffix: "+", title: "Patients cared for", body: "Across Brooklyn, Queens, and Manhattan since we opened our doors." },
+  { value: 12, suffix: "+", title: "Board-certified specialists", body: "One collaborative team — never siloed, never rushed, never on autopilot." },
+  { value: 4.9, suffix: "/5", title: "Average review score", body: "From 1,200+ verified reviews on Google, Healthgrades, and Zocdoc." },
+  { value: 3, suffix: " min", title: "Average wait time", body: "Book a slot, walk in, get seen. We respect your time as much as ours." },
+  { value: 98, suffix: "%", title: "Would recommend us", body: "To a friend, a parent, a child. The truest measure of care done right." },
+];
+
+function CyclingStatCard() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((p) => (p + 1) % CYCLE_STATS.length), 4000);
+    return () => clearInterval(id);
+  }, []);
+  const stat = CYCLE_STATS[i];
+  const next = () => setI((p) => (p + 1) % CYCLE_STATS.length);
+  const prev = () => setI((p) => (p - 1 + CYCLE_STATS.length) % CYCLE_STATS.length);
+  return (
+    <motion.div
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 250 }}
+      className="relative aspect-[4/5] h-full rounded-[1.75rem] overflow-hidden bg-gradient-to-br from-primary via-[oklch(0.6_0.18_235)] to-[oklch(0.45_0.2_245)] text-primary-foreground p-6 sm:p-7 shadow-float"
+    >
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 6, repeat: Infinity }}
+        className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/30 blur-3xl"
+      />
+      <motion.div
+        animate={{ scale: [1.1, 1, 1.1], opacity: [0.25, 0.45, 0.25] }}
+        transition={{ duration: 7, repeat: Infinity }}
+        className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-white/20 blur-3xl"
+      />
+
+      <div className="relative h-full flex flex-col justify-between gap-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="grid place-items-center w-11 h-11 rounded-2xl bg-background/20 backdrop-blur-md">
+            <TrendingUp className="w-5 h-5" />
+          </div>
+          <span className="rounded-full bg-background/15 backdrop-blur-md px-3 py-1.5 text-xs font-semibold">This Year</span>
+        </div>
+
+        <div className="space-y-3 min-h-0">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-2"
+            >
+              <AnimatedStat value={stat.value} suffix={stat.suffix} />
+              <p className="font-display font-bold text-lg sm:text-xl leading-tight">{stat.title}</p>
+              <p className="text-primary-foreground/80 text-xs sm:text-sm leading-relaxed">
+                {stat.body}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="flex items-center justify-between pt-2">
+            <button onClick={prev} aria-label="Previous stat" className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
+              <ChevronDown className="w-4 h-4 rotate-90" />
+            </button>
+            <div className="flex items-center gap-1.5 flex-1 mx-3">
+              {CYCLE_STATS.map((_, idx) => (
+                <span key={idx} className={`h-1 rounded-full transition-all ${idx === i ? "flex-[2] bg-background" : "flex-1 bg-background/30"}`} />
+              ))}
+            </div>
+            <button onClick={next} aria-label="Next stat" className="grid place-items-center w-9 h-9 rounded-full bg-background/15 backdrop-blur-md hover:bg-background/25 transition">
+              <ChevronDown className="w-4 h-4 -rotate-90" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function AnimatedStat({ value, suffix }: { value: number; suffix: string }) {
   const [n, setN] = useState(0);
+  useEffect(() => {
+    const dur = 1200;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(eased * value);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  const display = value % 1 !== 0 ? n.toFixed(1) : Math.round(n).toLocaleString();
   return (
-    <motion.p
-      onViewportEnter={() => {
-        const dur = 1400; const start = performance.now();
-        const tick = (t: number) => {
-          const p = Math.min(1, (t - start) / dur);
-          const eased = 1 - Math.pow(1 - p, 3);
-          setN(eased * value);
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }}
-      onViewportLeave={() => setN(0)}
-      viewport={{ amount: 0.4 }}
-      className="font-display text-7xl sm:text-8xl font-extrabold tracking-tighter leading-none"
-    >
-      +{Math.round(n)}<span className="text-background/70">{suffix}</span>
-    </motion.p>
+    <p className="font-display text-5xl sm:text-6xl font-extrabold tracking-tighter leading-none">
+      {display}<span className="text-background/70">{suffix}</span>
+    </p>
   );
 }
 
@@ -523,11 +561,7 @@ function ServicesHighlight() {
           <div key={it.title} className={`grid lg:grid-cols-12 gap-8 lg:gap-14 items-center ${i % 2 ? "lg:[&>*:first-child]:order-2" : ""}`}>
             <Reveal className="lg:col-span-6" y={40}>
               <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.5 }} className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-float">
-                <motion.img
-                  initial={{ scale: 1.15 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: false, amount: 0.2 }}
-                  transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                <img
                   src={it.img} alt={it.eyebrow} loading="lazy" className="absolute inset-0 w-full h-full object-cover"
                 />
               </motion.div>
@@ -566,7 +600,7 @@ function DoctorsMarquee() {
         <Reveal className="lg:col-span-7 space-y-4">
           <SectionEyebrow>The people behind your care</SectionEyebrow>
           <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
-            Specialists you'd recommend to your <span className="italic text-primary">mother</span>.
+            Specialists you'd recommend to your <Underlined>mother</Underlined>.
           </h2>
         </Reveal>
         <Reveal delay={0.1} className="lg:col-span-5">
@@ -657,7 +691,7 @@ function Testimonials() {
         <Reveal className="lg:col-span-5 space-y-5">
           <SectionEyebrow>Patient stories</SectionEyebrow>
           <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tighter text-foreground text-balance leading-[0.95]">
-            Loved by the people we <span className="italic text-primary">care for</span>.
+            Loved by the people we <Underlined>care for</Underlined>.
           </h2>
           <div className="flex items-center gap-3 pt-2">
             <div className="flex gap-0.5">
@@ -725,8 +759,8 @@ function Testimonials() {
           {/* Floating stat chip */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
             className="absolute -top-5 -left-3 sm:-left-5 glass-strong rounded-2xl px-4 py-3 shadow-float flex items-center gap-3"
           >
             <div className="grid place-items-center w-10 h-10 rounded-xl bg-primary text-primary-foreground">
@@ -778,13 +812,9 @@ function BlogGrid() {
             transition={{ type: "spring", stiffness: 200 }}
             className="group relative overflow-hidden rounded-[2rem] aspect-[16/9] sm:aspect-[21/9] shadow-float"
           >
-            <motion.img
+            <img
               src={featured.img} alt={featured.title} loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ scale: 1.1 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/30 to-transparent" />
 
