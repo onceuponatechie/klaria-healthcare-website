@@ -257,6 +257,22 @@ function MagneticButton({
   );
 }
 
+/* ---------- UNDERLINED accent (matches "reimagined" in hero) ---------- */
+function Underlined({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="relative inline-block text-primary">
+      {children}
+      <svg
+        aria-hidden
+        className="absolute -bottom-1 left-0 w-full h-3 text-primary/50"
+        viewBox="0 0 200 12" preserveAspectRatio="none"
+      >
+        <path d="M2 8 Q 50 1 100 6 T 198 5" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+      </svg>
+    </span>
+  );
+}
+
 /* ---------- TRUST MARQUEE (upgraded) ---------- */
 function TrustMarquee() {
   const items = [
