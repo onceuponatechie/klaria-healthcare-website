@@ -561,11 +561,7 @@ function ServicesHighlight() {
           <div key={it.title} className={`grid lg:grid-cols-12 gap-8 lg:gap-14 items-center ${i % 2 ? "lg:[&>*:first-child]:order-2" : ""}`}>
             <Reveal className="lg:col-span-6" y={40}>
               <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.5 }} className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-float">
-                <motion.img
-                  initial={{ scale: 1.15 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: false, amount: 0.2 }}
-                  transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                <img
                   src={it.img} alt={it.eyebrow} loading="lazy" className="absolute inset-0 w-full h-full object-cover"
                 />
               </motion.div>
