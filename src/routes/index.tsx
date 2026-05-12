@@ -759,8 +759,8 @@ function Testimonials() {
           {/* Floating stat chip */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
             className="absolute -top-5 -left-3 sm:-left-5 glass-strong rounded-2xl px-4 py-3 shadow-float flex items-center gap-3"
           >
             <div className="grid place-items-center w-10 h-10 rounded-xl bg-primary text-primary-foreground">
